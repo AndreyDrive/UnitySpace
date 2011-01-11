@@ -1,0 +1,89 @@
+<html>
+<head>
+  <title>The source code</title>
+    <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+</head>
+<body  onload="prettyPrint();">
+    <pre class="prettyprint lang-js">// System.Controllers.BaseController
+
+<div id="cls-UnitySpace.System.Controllers.RolesController"></div>/**
+ * @class UnitySpace.System.Controllers.RolesController
+ * @namespace UnitySpace.System.Controllers
+ * @extends UnitySpace.System.Controllers.BaseController
+ * RolesController class
+ * @author Max Kazarin
+ * @constructor
+ * Create new instance of UnitySpace.System.Controllers.RolesController class
+ */
+UnitySpace.System.Controllers.RolesController = function() {
+    UnitySpace.System.Controllers.RolesController.superclass.constructor.apply(this, arguments);
+};
+
+Ext.extend(UnitySpace.System.Controllers.RolesController, UnitySpace.System.Controllers.BaseController, {
+
+    <div id="method-UnitySpace.System.Controllers.RolesController-get"></div>/**
+     * Get all roles. Requesr url GET /roles.
+     * @param {Function} successFn Success callback function
+     * @param {Function} failureFn Failure callback function
+     * @param {Function} responseFn Response callback function
+     * @param {String} format (optional) format
+     */
+    get: function (successFn, failureFn, responseFn, format){
+        this.invoke(
+            '/roles',
+            'GET',
+            null,
+            successFn,
+            failureFn,
+            responseFn,
+            format);
+    },
+
+    <div id="method-UnitySpace.System.Controllers.RolesController-create"></div>/**
+     * Set user roles in project. Request url POST /project/(projectId)/user/(userId)
+     * @param {Number} projectId Project id
+     * @param {Number} userId User id
+     * @param {Array} roles Roles
+     * @param {Function} successFn Success callback function
+     * @param {Function} failureFn Failure callback function
+     * @param {Function} responseFn Response callback function
+     * @param {String} format (optional) format
+     */
+    create: function (projectId, userId, roles, successFn, failureFn, responseFn, format){
+        this.invoke(
+            '/project/'+projectId+'/user/'+userId,
+            'POST',
+            {
+                roles: roles
+            },
+            successFn,
+            failureFn,
+            responseFn,
+            format);
+    },
+
+    <div id="method-UnitySpace.System.Controllers.RolesController-remove"></div>/**
+     * Remove user roles in project. Request url DELET /project/(projectId)/user/(userId)
+     * @param {Number} projectId Project id
+     * @param {Number} userId User id
+     * @param {Function} successFn Success callback function
+     * @param {Function} failureFn Failure callback function
+     * @param {Function} responseFn Response callback function
+     * @param {String} format (optional) format
+     */
+    remove: function (projectId, userId, successFn, failureFn, responseFn, format){
+        this.invoke(
+            '/project/'+projectId+'/user/'+userId,
+            'DELETE',
+            null,
+            successFn,
+            failureFn,
+            responseFn,
+            format);
+    }
+});
+
+Engine.api.registrate("UnitySpace.Roles", UnitySpace.System.Controllers.RolesController);</pre>    
+</body>
+</html>

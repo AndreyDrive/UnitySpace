@@ -1,0 +1,27 @@
+<html>
+<head>
+  <title>The source code</title>
+    <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+</head>
+<body  onload="prettyPrint();">
+    <pre class="prettyprint lang-js">// using System.Net.Namespace
+// using Exception
+<div id="cls-UnitySpace.System.ApplicationException"></div>/**
+ * @class UnitySpace.System.ApplicationException
+ * @namespace UnitySpace.System
+ * @extends UnitySpace.Exception
+ * Application error class.
+ * @author Max Kazarin
+ * @constructor
+ * Create new instance of ApplicationException class
+ */
+UnitySpace.System.ApplicationException = function() {
+    UnitySpace.System.ApplicationException.superclass.constructor.apply(this, arguments);
+    this.name = 'ApplicationException';
+};
+
+Ext.extend(UnitySpace.System.ApplicationException, UnitySpace.Exception, {});
+</pre>    
+</body>
+</html>

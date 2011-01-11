@@ -1,0 +1,13 @@
+load('scripts/files.js');
+load('scripts/languages.js');
+load('scripts/manifest_builder.js');
+
+var manifestBuilder = new ManifestBuilder();
+if (!_args[0]) {
+    manifestBuilder.create();
+    manifestBuilder.rebuild();
+
+	quit();
+}
+
+manifestBuilder.update(_args[0]);

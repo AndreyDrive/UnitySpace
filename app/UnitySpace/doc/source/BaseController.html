@@ -1,0 +1,128 @@
+<html>
+<head>
+  <title>The source code</title>
+    <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+</head>
+<body  onload="prettyPrint();">
+    <pre class="prettyprint lang-js">// using System.Controllers.Namespace
+// using System.Controllers.ControllerManager
+
+<div id="cls-UnitySpace.System.Controllers.BaseController"></div>/**
+ * @class UnitySpace.System.Controllers.BaseController
+ * @namespace UnitySpace.System.Controllers
+ * @extends Object
+ * BaseController class
+ * @author Max Kazarin
+ * @constructor
+ * Create new instance f UnitySpace.System.Controllers.BaseController class
+ */
+UnitySpace.System.Controllers.BaseController = function(config) {
+    UnitySpace.System.Controllers.BaseController.superclass.constructor.apply(this, arguments);
+    
+    Ext.apply(this, config);
+};
+
+Ext.extend(UnitySpace.System.Controllers.BaseController, Object, {
+    <div id="prop-UnitySpace.System.Controllers.BaseController-defaultFormat"></div>/**
+     * Default request format. Default value json.
+     */
+    defaultFormat: 'json',
+
+    <div id="prop-UnitySpace.System.Controllers.BaseController-restfull"></div>/**
+     * RESTfull flag. If true then add .format to end of url. Default false.
+     */
+    restfull: false,
+
+    // protected
+    getName: function() {
+        return null;
+    },
+
+    // private
+	getUrl: function(methodName, format) {
+
+        var name = this.getName();
+
+        if (methodName)
+            if (name && name != '')
+                name += '/' + methodName;
+            else
+                name = methodName;
+
+        if (!this.restfull)
+            name += '.'+this.getFormat(format);
+        return name;
+	},
+
+    // private
+    getFormat: function(format) {
+        if (!format)
+            return this.defaultFormat;
+
+        return format;
+    },
+
+    // private
+    getHeader: function(format) {
+        switch (format) {
+            case 'json':
+                return {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json; charset=utf-8'
+                    }
+                };
+            case 'xml':
+                    //TODO Добавить формат для xml.
+            break;
+            case 'html':
+                    //TODO Добавить формат для html
+            break;
+        }
+    },
+
+    // private
+    getData: function(method, params, format) {
+        switch (format) {
+            case 'json':
+                if (method == 'GET')
+                    return {params: params};
+                else
+                    return { jsonData: Ext.encode(params) };
+            case 'xml':
+                return { xmlData: params };
+            default:
+                return { params: params };
+        }
+    },
+
+    <div id="method-UnitySpace.System.Controllers.BaseController-invoke"></div>/**
+     * Invoke controller request
+     * @param {String} methodName Method name
+     * @param {String} method Http method name GET, POST, PUT, DELETE
+     * @param {Object} params Parameters to send
+     * @param {Function} successFn Success callback function
+     * @param {Function} failureFn Failure callback function
+     * @param {Function} responseFn Response callback function
+     * @param {String} format (optional) format
+     */
+    invoke: function(methodName, method, params, successFn, failureFn, responseFn, format) {
+	    var headerFormat = this.getFormat(format);
+        var config = {
+            url: this.getUrl(methodName, format),
+            method: method,
+            disableCaching: false,
+            success: Ext.isDefined(successFn) ? successFn.safe() : null,
+            failure: Ext.isDefined(failureFn) ? failureFn.safe() : null,
+            callback: Ext.isDefined(responseFn) ? responseFn.safe(): null
+        };
+
+        Ext.apply(config, this.getHeader(headerFormat));
+        Ext.apply(config, this.getData(method, params, headerFormat));
+
+        Ext.Ajax.request(config);
+    }
+});</pre>    
+</body>
+</html>

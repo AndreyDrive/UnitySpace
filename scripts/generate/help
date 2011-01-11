@@ -1,0 +1,18 @@
+if (!_args[0]) {
+	print("Usage: js script/generate/help name");
+	quit();
+}
+
+build(_args[0]);
+//build();
+function build(appName) {
+    runCommand(
+        'java',
+        '-Dfile.encoding=UTF8',
+    	'-jar',
+        './scripts/lib/ext-doc/ext-doc.jar',
+        '-p./app/'+appName+'/config/doc.xml',
+        '-o./app/'+appName+'/doc',
+        '-t./scripts/lib/ext-doc/template/ext3/template.xml',
+        '-verbose');
+}

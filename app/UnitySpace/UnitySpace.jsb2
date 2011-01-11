@@ -1,0 +1,396 @@
+{
+	"projectName": "UnitySpace",
+	"deployDir": "deploy/",
+	"licenseText": "UnitySpace license",
+	"pkgs": [
+		{
+			"name": "UnitySpace",
+			"file": "unityspace.en-US.js",
+			"fileIncludes": [
+				{
+					"text": "adapter-net.js",
+					"path": "src/Adapters/"
+				},
+				{
+					"text": "Namespace.js",
+					"path": "src/"
+				},
+				{
+					"text": "Exception.js",
+					"path": "src/"
+				},
+				{
+					"text": "ArgumentNullException.js",
+					"path": "src/"
+				},
+				{
+					"text": "ConfigurateManager.js",
+					"path": "src/"
+				},
+				{
+					"text": "PubSub.js",
+					"path": "src/"
+				},
+				{
+					"text": "Resources.en-US.js",
+					"path": "src/Resources/"
+				},
+				{
+					"text": "Synchronizer.js",
+					"path": "src/"
+				},
+				{
+					"text": "Namespace.js",
+					"path": "src/System/Net/"
+				},
+				{
+					"text": "ApplicationException.js",
+					"path": "src/System/"
+				},
+				{
+					"text": "Namespace.js",
+					"path": "src/System/"
+				},
+				{
+					"text": "Console.js",
+					"path": "src/System/"
+				},
+				{
+					"text": "Namespace.js",
+					"path": "src/System/Controllers/"
+				},
+				{
+					"text": "TaskQueue.js",
+					"path": "src/"
+				},
+				{
+					"text": "Engine.js",
+					"path": "src/System/"
+				},
+				{
+					"text": "ControllerManager.js",
+					"path": "src/System/Controllers/"
+				},
+				{
+					"text": "BaseController.js",
+					"path": "src/System/Controllers/"
+				},
+				{
+					"text": "AccountController.js",
+					"path": "src/System/Controllers/"
+				},
+				{
+					"text": "ControllerException.js",
+					"path": "src/System/Controllers/"
+				},
+				{
+					"text": "RolesController.js",
+					"path": "src/System/Controllers/"
+				},
+				{
+					"text": "UsersController.js",
+					"path": "src/System/Controllers/"
+				},
+				{
+					"text": "EManifestType.js",
+					"path": "src/System/"
+				},
+				{
+					"text": "Manifest.js",
+					"path": "src/System/"
+				},
+				{
+					"text": "Namespace.js",
+					"path": "src/System/Modules/"
+				},
+				{
+					"text": "BaseModule.js",
+					"path": "src/System/Modules/"
+				},
+				{
+					"text": "CommandShellModule.js",
+					"path": "src/System/Modules/"
+				},
+				{
+					"text": "DebugModule.js",
+					"path": "src/System/Modules/"
+				},
+				{
+					"text": "ExtJSModule.js",
+					"path": "src/System/Modules/"
+				},
+				{
+					"text": "GINAModule.js",
+					"path": "src/System/Modules/"
+				},
+				{
+					"text": "KeyboardModule.js",
+					"path": "src/System/Modules/"
+				},
+				{
+					"text": "ModuleException.js",
+					"path": "src/System/Modules/"
+				},
+				{
+					"text": "Project.js",
+					"path": "src/System/Modules/"
+				},
+				{
+					"text": "ProjectProfileModule.js",
+					"path": "src/System/Modules/"
+				},
+				{
+					"text": "RepositoryModule.js",
+					"path": "src/System/Modules/"
+				},
+				{
+					"text": "User.js",
+					"path": "src/System/Modules/"
+				},
+				{
+					"text": "ActionResponse.js",
+					"path": "src/System/Net/"
+				},
+				{
+					"text": "ConnectionException.js",
+					"path": "src/System/Net/"
+				},
+				{
+					"text": "Namespace.js",
+					"path": "src/System/Security/"
+				},
+				{
+					"text": "Ability.js",
+					"path": "src/System/Security/"
+				},
+				{
+					"text": "AuthenticateProviderException.js",
+					"path": "src/System/Security/"
+				},
+				{
+					"text": "AuthenticateProviderManager.js",
+					"path": "src/System/Security/"
+				},
+				{
+					"text": "BaseAuthenticateProvider.js",
+					"path": "src/System/Security/"
+				},
+				{
+					"text": "FormAuthenticateProvider.js",
+					"path": "src/System/Security/"
+				},
+				{
+					"text": "SystemException.js",
+					"path": "src/System/"
+				},
+				{
+					"text": "Task.js",
+					"path": "src/"
+				}
+			]
+		},
+		{
+			"name": "UnitySpace",
+			"file": "unityspace.ru-RU.js",
+			"fileIncludes": [
+				{
+					"text": "adapter-net.js",
+					"path": "src/Adapters/"
+				},
+				{
+					"text": "Namespace.js",
+					"path": "src/"
+				},
+				{
+					"text": "Exception.js",
+					"path": "src/"
+				},
+				{
+					"text": "ArgumentNullException.js",
+					"path": "src/"
+				},
+				{
+					"text": "ConfigurateManager.js",
+					"path": "src/"
+				},
+				{
+					"text": "PubSub.js",
+					"path": "src/"
+				},
+				{
+					"text": "Resources.ru-RU.js",
+					"path": "src/Resources/"
+				},
+				{
+					"text": "Synchronizer.js",
+					"path": "src/"
+				},
+				{
+					"text": "Namespace.js",
+					"path": "src/System/Net/"
+				},
+				{
+					"text": "ApplicationException.js",
+					"path": "src/System/"
+				},
+				{
+					"text": "Namespace.js",
+					"path": "src/System/"
+				},
+				{
+					"text": "Console.js",
+					"path": "src/System/"
+				},
+				{
+					"text": "Namespace.js",
+					"path": "src/System/Controllers/"
+				},
+				{
+					"text": "TaskQueue.js",
+					"path": "src/"
+				},
+				{
+					"text": "Engine.js",
+					"path": "src/System/"
+				},
+				{
+					"text": "ControllerManager.js",
+					"path": "src/System/Controllers/"
+				},
+				{
+					"text": "BaseController.js",
+					"path": "src/System/Controllers/"
+				},
+				{
+					"text": "AccountController.js",
+					"path": "src/System/Controllers/"
+				},
+				{
+					"text": "ControllerException.js",
+					"path": "src/System/Controllers/"
+				},
+				{
+					"text": "RolesController.js",
+					"path": "src/System/Controllers/"
+				},
+				{
+					"text": "UsersController.js",
+					"path": "src/System/Controllers/"
+				},
+				{
+					"text": "EManifestType.js",
+					"path": "src/System/"
+				},
+				{
+					"text": "Manifest.js",
+					"path": "src/System/"
+				},
+				{
+					"text": "Namespace.js",
+					"path": "src/System/Modules/"
+				},
+				{
+					"text": "BaseModule.js",
+					"path": "src/System/Modules/"
+				},
+				{
+					"text": "CommandShellModule.js",
+					"path": "src/System/Modules/"
+				},
+				{
+					"text": "DebugModule.js",
+					"path": "src/System/Modules/"
+				},
+				{
+					"text": "ExtJSModule.js",
+					"path": "src/System/Modules/"
+				},
+				{
+					"text": "GINAModule.js",
+					"path": "src/System/Modules/"
+				},
+				{
+					"text": "KeyboardModule.js",
+					"path": "src/System/Modules/"
+				},
+				{
+					"text": "ModuleException.js",
+					"path": "src/System/Modules/"
+				},
+				{
+					"text": "Project.js",
+					"path": "src/System/Modules/"
+				},
+				{
+					"text": "ProjectProfileModule.js",
+					"path": "src/System/Modules/"
+				},
+				{
+					"text": "RepositoryModule.js",
+					"path": "src/System/Modules/"
+				},
+				{
+					"text": "User.js",
+					"path": "src/System/Modules/"
+				},
+				{
+					"text": "ActionResponse.js",
+					"path": "src/System/Net/"
+				},
+				{
+					"text": "ConnectionException.js",
+					"path": "src/System/Net/"
+				},
+				{
+					"text": "Namespace.js",
+					"path": "src/System/Security/"
+				},
+				{
+					"text": "Ability.js",
+					"path": "src/System/Security/"
+				},
+				{
+					"text": "AuthenticateProviderException.js",
+					"path": "src/System/Security/"
+				},
+				{
+					"text": "AuthenticateProviderManager.js",
+					"path": "src/System/Security/"
+				},
+				{
+					"text": "BaseAuthenticateProvider.js",
+					"path": "src/System/Security/"
+				},
+				{
+					"text": "FormAuthenticateProvider.js",
+					"path": "src/System/Security/"
+				},
+				{
+					"text": "SystemException.js",
+					"path": "src/System/"
+				},
+				{
+					"text": "Task.js",
+					"path": "src/"
+				}
+			]
+		},
+		{
+			"name": "UnitySpace",
+			"file": "resources/css/unityspace.css",
+			"fileIncludes": [
+				{
+					"text": "console.css",
+					"path": "resources/css/"
+				}
+			]
+		}
+	],
+	"resources": [
+		{
+			"src": "resources/images",
+			"dest": "resources/images",
+			"filters": ".*"
+		}
+	]
+}

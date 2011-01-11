@@ -1,0 +1,11 @@
+Applications.Manifest['<%= name %>'] = new WebDesktop.core.Manifest({
+    namespace: 'Applications',
+    name: '<%= name %>',
+    title: Applications.Resources.Manifest.<%= name %>.Title,
+    authors: Applications.Resources.Manifest.<%= name %>.Authors,
+    description: Applications.Resources.Manifest.<%= name %>.Description,
+    category: Applications.Resources.Manifest.<%= name %>.Category,
+    version: '1.0',
+    system: true,
+    singleInstance: true
+});

@@ -1,0 +1,81 @@
+if (!_args[0]) {
+	print("Usage: js script/generate/app app_name");
+	quit();
+}
+
+load('scripts/files.js');
+load('scripts/languages.js');
+load('scripts/jsbuilder.js');
+load('scripts/manifest_builder.js');
+
+CreateEmptyApplication(_args[0]);
+
+var jsBuilder =  new jsBuilderProject(
+        _args[0],
+        'Applications.'+_args[0],
+        'app/'+_args[0].toLowerCase());
+
+jsBuilder.parse();
+jsBuilder.generate();
+jsBuilder.save();
+
+var manifestBuilder = new ManifestBuilder();
+manifestBuilder.update(_args[0]);
+
+function CreateEmptyApplication(applicationName) {
+    var applicationDirectory = 'app/'+applicationName;
+    createDirectory(applicationDirectory);
+    createDirectory(applicationDirectory + '/manifest/resources/css');
+    createDirectory(applicationDirectory + '/manifest/resources/images');
+    createDirectory(applicationDirectory + '/manifest/src/resources');
+    createDirectory(applicationDirectory + '/resources/css');
+    createDirectory(applicationDirectory + '/resources/images');
+    createDirectory(applicationDirectory + '/src/resources');
+
+    var data = {
+        name: applicationName
+    };
+
+    var fileName;
+
+    //Manifest
+    fileName = java.lang.String.format('%s/manifest/src/Manifest.js', applicationDirectory, applicationName);
+    renderTemplate(fileName, 'manifest.ejs', data);
+
+    languages.forEach(function(language) {
+        fileName = java.lang.String.format('%s/manifest/src/resources/Resources.%s.js', applicationDirectory, language);
+        renderTemplate(fileName, 'manifest.resources.ejs', data);
+    }, this);
+
+    fileName = java.lang.String.format('%s/manifest/resources/css/manifest.css', applicationDirectory);
+    renderTemplate(fileName, 'manifest.css.ejs', data);
+
+    fileName = java.lang.String.format('%s/manifest/resources/images/%s-big-icon.png', applicationDirectory, applicationName.toLowerCase());
+    copyFile('scripts/generate/templates/resources/icons/big-icon.png', fileName);
+
+    fileName = java.lang.String.format('%s/manifest/resources/images/%s-middle-icon.png', applicationDirectory, applicationName.toLowerCase());
+    copyFile('scripts/generate/templates/resources/icons/middle-icon.png', fileName);
+
+    fileName = java.lang.String.format('%s/manifest/resources/images/%s-small-icon.png', applicationDirectory, applicationName.toLowerCase());
+    copyFile('scripts/generate/templates/resources/icons/small-icon.png', fileName);
+
+    //Application
+    fileName = java.lang.String.format('%s/src/%s.js', applicationDirectory, applicationName);
+    renderTemplate(fileName, 'application.ejs', data);
+
+    fileName = java.lang.String.format('%s/src/MainWindow.js', applicationDirectory);
+    renderTemplate(fileName, 'mainwindow.ejs', data);
+
+    fileName = java.lang.String.format('%s/src/Namespace.js', applicationDirectory);
+    renderTemplate(fileName, 'namespace.ejs', data);
+
+    //Language
+    languages.forEach(function(language) {
+        fileName = java.lang.String.format('%s/src/resources/Resources.%s.js', applicationDirectory, language);
+        renderTemplate(fileName, 'application.resources.ejs', data);
+    }, this);
+
+    //Resources
+    fileName = java.lang.String.format('%s/resources/css/%s.css', applicationDirectory, applicationName.toLowerCase());
+    renderTemplate(fileName, 'application.css.ejs', data);
+}

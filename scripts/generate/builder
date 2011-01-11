@@ -1,0 +1,35 @@
+load('scripts/files.js');
+load('scripts/languages.js');
+load('scripts/jsbuilder.js');
+
+if (_args[0]) {
+	generateBuilder(_args[0])
+	quit();
+}
+
+var directories = getDirecotories('app/');
+directories.forEach(function(directory) {
+    var projectName = ''+directory.getName();
+    if (projectName == 'manifest')
+        return;
+	print('Generate for application ' + projectName);
+    generateBuilder(projectName)
+}, this);
+
+function generateBuilder(name) {
+	var directory = 'app/'+name;
+	//var namespace = 'Applications.'+name;
+	if (!isFileExists(directory)) {
+		directory = name;
+		//namespace = name;
+	}
+
+	var jsBuilder =  new jsBuilderProject(
+		name,
+		//namespace,
+		directory);
+
+	jsBuilder.parse();
+	jsBuilder.generate();
+	jsBuilder.save();
+}

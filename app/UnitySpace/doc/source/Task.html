@@ -1,0 +1,54 @@
+<html>
+<head>
+  <title>The source code</title>
+    <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+</head>
+<body  onload="prettyPrint();">
+    <pre class="prettyprint lang-js">// using Namespace
+
+<div id="cls-UnitySpace.Task"></div>/**
+ * @class UnitySpace.Task
+ * @namespace UnitySpace
+ * @extends Object
+ * Task class
+ * @author Max Kazarin
+ * @constructor
+ * Create new instance of UnitySpace.Task class
+ */
+UnitySpace.Task = function(config) {
+    Ext.apply(this, config);
+};
+
+Ext.extend(UnitySpace.Task, Object, {
+
+    // private
+    defaultFn: function(synchronizer) {synchronizer();},
+
+    <div id="prop-UnitySpace.Task-name"></div>/**
+     * Task name
+     */
+    name: null,
+
+    <div id="prop-UnitySpace.Task-method"></div>/**
+     * Task method
+     */
+    method: this.defaultFn,
+
+    <div id="prop-UnitySpace.Task-scope"></div>/**
+     * Task method scope
+     */
+    scope: window,
+
+    <div id="prop-UnitySpace.Task-isLast"></div>/**
+     * Last task flag
+     */
+    isLast: false,
+
+    <div id="prop-UnitySpace.Task-wait"></div>/**
+     * Time to wait before execute task
+     */
+    wait: 0
+});</pre>    
+</body>
+</html>

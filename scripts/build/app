@@ -1,0 +1,40 @@
+if (_args[0]) {
+    build(_args[0]);
+	quit();
+}
+
+load('scripts/files.js');
+
+var directories = getDirecotories('app/');
+directories.forEach(function(directory) {
+    var projectName = directory.getName();
+    if (projectName == 'manifest')
+        return;
+    build(projectName)
+}, this);
+
+
+function build(applicationName) {
+    /*if (applicationName == 'manifest') {
+        runCommand(
+                'java',
+				'-Dfile.encoding=UTF8',
+				'-jar',
+                'tools/JSBuilder2.jar',
+                '--projectFile',
+                'app/manifest/manifest.jsb2',
+                '--homeDir',
+                'app/manifest');
+        return
+    }*/
+
+    runCommand(
+            'java',
+			'-Dfile.encoding=UTF8',
+			'-jar',
+            'scripts/lib/JSBuilder/JSBuilder2.jar',
+            '--projectFile',
+            'app/'+applicationName+'/'+applicationName+'.jsb2',
+            '--homeDir',
+            'app/'+applicationName);
+}

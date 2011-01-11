@@ -1,0 +1,73 @@
+<html>
+<head>
+  <title>The source code</title>
+    <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+</head>
+<body  onload="prettyPrint();">
+    <pre class="prettyprint lang-js">// using System.Namespace
+
+<div id="cls-UnitySpace.System.Console"></div>/**
+ * @class UnitySpace.System.Console
+ * @namespace UnitySpace.System
+ * @extends Object
+ * Console class
+ * @author Max Kazarin
+ * @constructor
+ * Create new instance of UnitySpace.System.Console class
+ */
+UnitySpace.System.Console = function() {
+    UnitySpace.System.Console.superclass.constructor.apply(this, arguments);
+};
+
+Ext.extend(UnitySpace.System.Console, Object, {
+    name: 'Console',
+    outputElement: null,
+    template: null,
+
+    <div id="method-UnitySpace.System.Console-initialize"></div>/**
+     * Initialize console
+     */
+    initialize: function() {
+        this.outputElement = Ext.getBody().insertHtml('beforeEnd', '<div id="console"></div>', true);
+    },
+
+    <div id="method-UnitySpace.System.Console-write"></div>/**
+     * Write to console
+     * @param {String} message Console message
+     */
+    write: function(message) {
+        if (!this.template)
+            this.outputElement.insertHtml('beforeEnd', message);
+        else
+            this.template.append(this.outputElement, arguments);
+    },
+
+    <div id="method-UnitySpace.System.Console-setTemplate"></div>/**
+     * Set console template
+     * @param {String} template Console template
+     */
+    setTemplate: function(template) {
+        this.template = new Ext.Template(template);
+        this.template.compile();
+    },
+
+    <div id="method-UnitySpace.System.Console-clearTemplate"></div>/**
+     * Clear console template
+     */
+    clearTemplate: function() {
+        if (this.template) {
+            delete this.template;
+            this.template = null;
+        }
+    },
+
+    <div id="method-UnitySpace.System.Console-close"></div>/**
+     * Close console
+     */
+    close: function() {
+        this.outputElement.remove();
+    }
+});</pre>    
+</body>
+</html>

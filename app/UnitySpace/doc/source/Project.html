@@ -1,0 +1,35 @@
+<html>
+<head>
+  <title>The source code</title>
+    <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+</head>
+<body  onload="prettyPrint();">
+    <pre class="prettyprint lang-js">// using System.Modules.Namespace
+
+<div id="cls-UnitySpace.System.Modules.Project"></div>/**
+ * @class UnitySpace.System.Modules.Project
+ * @namespace UnitySpace.System.Modules
+ * @extends Object
+ * Project class.
+ * @author Max Kazarin
+ * @constructor
+ * Create new instance of Project class.
+ * @param {Object} config Project configuration
+ */
+UnitySpace.System.Modules.Project = function(config) {
+    this.initialize(config);
+};
+
+UnitySpace.System.Modules.Project = Ext.extend(Object, {
+    // protected
+    initialize: function(config) {
+        //Ext.applyIf(this, config);
+        this.id = config.id;
+        this.name = config.name;
+        this.roles = config.roles;
+        this.applications = config.applications;
+    }
+});</pre>    
+</body>
+</html>

@@ -1,0 +1,13 @@
+build('manifest');
+
+function build(applicationName) {
+    runCommand(
+        'java',
+        '-Dfile.encoding=UTF8',
+		'-jar',
+        'scripts/JSBuilder2.jar',
+        '--projectFile',
+        'app/manifest/manifest.jsb2',
+        '--homeDir',
+        'app/manifest');
+}

@@ -1,0 +1,38 @@
+<html>
+<head>
+  <title>The source code</title>
+    <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+</head>
+<body  onload="prettyPrint();">
+    <pre class="prettyprint lang-js">// using Namespace
+
+<div id="cls-UnitySpace.Synchronizer"></div>/**
+ * @class UnitySpace.Synchronizer
+ * @namespace UnitySpace
+ * @extends Object
+ * Synchronizer class
+ * @author Max Kazarin
+ * @constructor
+ * Create new instance of UnitySpace.Synchronizer class
+ * @param {Number} count Count of object to synchronize
+ */
+UnitySpace.Synchronizer = function(count) {
+    this.count = count;
+};
+
+Ext.extend(UnitySpace.Synchronizer, Object, {
+    // protected
+    count: 0,
+
+    <div id="method-UnitySpace.Synchronizer-lock"></div>/**
+     * Lock synchronizer. Decrease count of object to synchronize 
+     */
+    lock: function(){
+        this.count--;
+
+        return this.count > 0;
+    }
+});</pre>    
+</body>
+</html>
