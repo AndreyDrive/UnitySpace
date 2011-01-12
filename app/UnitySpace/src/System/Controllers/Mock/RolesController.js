@@ -1,13 +1,14 @@
-// System.Controllers.BaseController
+// using System.Controllers.BaseController
+// using System.Controllers.Mock.Mock
 
 /**
- * @class UnitySpace.System.Controllers.RolesController
- * @namespace UnitySpace.System.Controllers
+ * @class UnitySpace.System.Controllers.Mock.RolesController
+ * @namespace UnitySpace.System.Mock.Controllers
  * @extends UnitySpace.System.Controllers.BaseController
  * RolesController class
  * @author Max Kazarin
  * @constructor
- * Create new instance of UnitySpace.System.Controllers.RolesController class
+ * Create new instance of UnitySpace.System.Controllers.Mock.RolesController class
  */
 UnitySpace.System.Controllers.Mock.RolesController = function() {
     UnitySpace.System.Controllers.Mock.RolesController.superclass.constructor.apply(this, arguments);
@@ -53,5 +54,3 @@ Ext.extend(UnitySpace.System.Controllers.Mock.RolesController, UnitySpace.System
         return null;
     }
 });
-
-Engine.api.registrate("UnitySpace.Roles", UnitySpace.System.Controllers.Mock.RolesController);

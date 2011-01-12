@@ -30,25 +30,23 @@ UnitySpace.System.Modules.DebugModule = Ext.extend(UnitySpace.System.Modules.Bas
         if (!Ext.isDefined(log4javascript))
             throw new UnitySpace.System.Modules.ModuleException(UnitySpace.Resources.System.Modules.DebugModule.Log4JavaScriptNotFound);
 
-        log = log4javascript.getLogger();
+        var doMock = Engine.config.get('Debug.mock', false);
+        if (doMock) {
+            log('Mock enable');
+            UnitySpace.System.Controllers.Mocking();
+        }
+        //log = log4javascript.getLogger();
 		// Create a PopUpAppender with default options
 		//var popUpAppender = new log4javascript.InPageAppender();
         //var popUpAppender = new log4javascript.PopUpAppender();
-        var popUpAppender = new log4javascript.BrowserConsoleAppender();
+        //var popUpAppender = new log4javascript.BrowserConsoleAppender();
 
 		// Change the desired configuration options
 		//popUpAppender.setFocusPopUp(true);
 		//popUpAppender.setNewestMessageAtTop(true);
 
 		// Add the appender to the logger
-		log.addAppender(popUpAppender);
-        /*if (window.console && window.console.log) {
-        	log = function () { window.console.log(arguments.length > 1 ? arguments : arguments[0]); };
-        } else if ( Ext.log ) {
-            log = window.Ext.log;
-        } else {
-            log = Ext.emptyFn;
-        }*/
+		//log.addAppender(popUpAppender);
 
         this.subscribe( '*', this._logChannels);
     },
@@ -65,7 +63,7 @@ UnitySpace.System.Modules.DebugModule = Ext.extend(UnitySpace.System.Modules.Bas
             message = 'function';
         else if (!Ext.isDefined(event))
             message = '';
-        log.info(String.format('channel: [{0}] {1}', channel, message));
+        log(String.format('channel: [{0}] {1}', channel, message));
     }
 });
 

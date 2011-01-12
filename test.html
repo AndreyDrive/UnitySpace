@@ -15,6 +15,7 @@
 	<script type="text/javascript" src="lib/ext-3.3.0/ext-all-debug.js"></script>
 	<script type="text/javascript" src="lib/ext-3.3.0/ext-lang.ru-RU.js"></script>
 
+    <script type="text/javascript" src="lib/debug.js"></script>
 	<script type="text/javascript" src="app/UnitySpace/deploy/unityspace.ru-RU-debug.js"></script>
 
 	<script type="text/javascript">
@@ -32,11 +33,14 @@
 		    },
 		    Connection: {
 		        restfull: true
-		    }
+		    },
+            Debug: {
+                mock: true
+            }
 		});
 
 		Engine.subscribe('/modules/gina/beforelogon', function (validateFn) {
-		    validateFn('test', 'qwerty', true);
+		    validateFn('test', 'qwerty1', true);
 		});
 
 		Engine.subscribe('/modules/gina/error', function () {

@@ -128,3 +128,5 @@ UnitySpace.System.Modules.RepositoryModule = Ext.extend(UnitySpace.System.Module
 
     }
 });
+
+Engine.registrate(UnitySpace.System.Modules.RepositoryModule);

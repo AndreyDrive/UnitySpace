@@ -10,7 +10,6 @@
  * @constructor
  * Create new instance of engine class
  */
-debug = new Function('debugger;');
 
 UnitySpace.System.Engine = function() {
     this.modules = {};
@@ -26,49 +25,59 @@ Ext.extend(UnitySpace.System.Engine, Ext.util.Observable, {
      * Initialize engine
      */
     initialize: function() {
-        var console = new UnitySpace.System.Console();
-        console.initialize();
-        this.addTask({
+        this.console = new UnitySpace.System.Console();
+        this.console.initialize();
+/*        this.addTask({
             method: function(synchronizer) {
-                console.close();
+                this.console.close();
                 synchronizer();
             },
-            scope: console
-        });
+            scope: this.console
+        });*/
 
-        console.write('Initialize modules...\n');
+        this.console.write('Initialize modules...\n');
 
-        console.setTemplate('<div>Module {0}...<span style="float:right; color:{2}">[{1}]</span></div><div style="padding-left:20px; color:yellow;">{3}</div>');
-        var initializeResult = true;
-        for (var moduleIndex in this.modules) {
-            var moduleInfo = this.modules[moduleIndex];
-            var errorMessage = null;
-            var module = null;
-            var result = true;
-            try {
-                module = new moduleInfo.className;
-                module.validate();
-                module.initialize();
-                moduleInfo.instance = module;
+        this.console.setTemplate('<div>Module {0}...<span style="float:right; color:{2}">[{1}]</span></div><div style="padding-left:20px; color:yellow;">{3}</div>');
+        var initialized = true;
+        for (var moduleIndex = 0; moduleIndex < this.init.length; moduleIndex++) {
+            var moduleName = this.init[moduleIndex];
+            if (!this.modules.hasOwnProperty(moduleName)) {
+                log(String.format('Module {0} not initialize. Not registrate.', moduleName));
+                continue;
             }
-            catch(exception) {
-                initializeResult = false;
-                result = false;
-                var message = exception.message;
-                if (exception instanceof UnitySpace.Exception) {
-                    message = exception.message;
-                }
-                errorMessage = 'Error: '+message;
-            }
-            console.write(
-                    module.name,
-                    result ? 'OK' : 'FAILED',
-                    result ? 'green' : 'red',
-                    errorMessage);
+            initialized = this._initializeModule(moduleName);
         }
-        console.clearTemplate();
-        if (!initializeResult)
+
+        this.console.clearTemplate();
+        if (!initialized)
             this.taskQueue.clear();
+    },
+
+    _initializeModule:function (moduleName) {
+        var moduleInfo = this.modules[moduleName];
+        var errorMessage = null;
+        var module = null;
+        var result = true;
+        try {
+            module = new moduleInfo.className();
+            module.validate();
+            module.initialize();
+            moduleInfo.instance = module;
+        }
+        catch(exception) {
+            result = false;
+            var message = exception.message;
+            if (exception instanceof UnitySpace.Exception) {
+                message = exception.message;
+            }
+            errorMessage = 'Error: '+message;
+        }
+        this.console.write(
+                module.name,
+                result ? 'OK' : 'FAILED',
+                result ? 'green' : 'red',
+                errorMessage);
+        return result;
     },
 
     /**

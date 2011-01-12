@@ -33,7 +33,6 @@ UnitySpace.System.Modules.ProjectProfileModule = Ext.extend(UnitySpace.System.Mo
      * Initialize module resources
      */
     initialize: function() {
-        debug();
         UnitySpace.System.Modules.ProjectProfileModule.superclass.initialize.apply(this, arguments);
 
         this.projectsController = Engine.api.get('UnitySpace.Projects');

@@ -135,7 +135,7 @@ UnitySpace.System.Modules.ExtJSModule = Ext.extend(UnitySpace.System.Modules.Bas
         Ext.Ajax.on('requestcomplete', function(conn, response, options) {
             try {
                 var header = response.getAllResponseHeaders();
-                log.debug('url='+options.url + '\nheader=' +header);
+                log('url='+options.url + '\nheader=' +header);
                 //if (options.headers.Accept.indexOf('application/json') != -1)
                 if (header.indexOf('application/json') != -1)
                     this.decodeResponse(response);
@@ -157,10 +157,13 @@ UnitySpace.System.Modules.ExtJSModule = Ext.extend(UnitySpace.System.Modules.Bas
             }
 
             try {
+                if (response.status == 0 || !Ext.isDefined(response.responseText))
+                    throw response.statusText;
+
                 if (!options.headers.Accept)
                     this.decodeResponse(response);
                 else if (options.headers.Accept.indexOf('application/json') != -1)
-                        this.decodeResponse(response);
+                    this.decodeResponse(response);
 
 
                 if (response.responseData && !UnitySpace.System.Net.ActionResponse.canParse(response))

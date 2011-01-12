@@ -466,12 +466,12 @@ Ext.namespace('UnitySpace.System.Controllers');// using Namespace
  * Create new instance of UnitySpace.TaskQueue class
  */
 UnitySpace.TaskQueue = function(config) {
+    UnitySpace.TaskQueue.superclass.constructor.apply(this, arguments);
+
     Ext.apply(this, config);
     this.addEvents('run','stop');
     this.tasks = new Array();
     this.lastTasks = new Array();
-
-    UnitySpace.TaskQueue.superclass.constructor.apply(this, arguments);
 };
 
 Ext.extend(UnitySpace.TaskQueue, Ext.util.Observable, {
@@ -646,7 +646,6 @@ Ext.extend(UnitySpace.TaskQueue, Ext.util.Observable, {
  * @constructor
  * Create new instance of engine class
  */
-debug = new Function('debugger;');
 
 UnitySpace.System.Engine = function() {
     this.modules = {};
@@ -662,49 +661,59 @@ Ext.extend(UnitySpace.System.Engine, Ext.util.Observable, {
      * Initialize engine
      */
     initialize: function() {
-        var console = new UnitySpace.System.Console();
-        console.initialize();
-        this.addTask({
+        this.console = new UnitySpace.System.Console();
+        this.console.initialize();
+/*        this.addTask({
             method: function(synchronizer) {
-                console.close();
+                this.console.close();
                 synchronizer();
             },
-            scope: console
-        });
+            scope: this.console
+        });*/
 
-        console.write('Initialize modules...\n');
+        this.console.write('Initialize modules...\n');
 
-        console.setTemplate('<div>Module {0}...<span style="float:right; color:{2}">[{1}]</span></div><div style="padding-left:20px; color:yellow;">{3}</div>');
-        var initializeResult = true;
-        for (var moduleIndex in this.modules) {
-            var moduleInfo = this.modules[moduleIndex];
-            var errorMessage = null;
-            var module = null;
-            var result = true;
-            try {
-                module = new moduleInfo.className;
-                module.validate();
-                module.initialize();
-                moduleInfo.instance = module;
+        this.console.setTemplate('<div>Module {0}...<span style="float:right; color:{2}">[{1}]</span></div><div style="padding-left:20px; color:yellow;">{3}</div>');
+        var initialized = true;
+        for (var moduleIndex = 0; moduleIndex < this.init.length; moduleIndex++) {
+            var moduleName = this.init[moduleIndex];
+            if (!this.modules.hasOwnProperty(moduleName)) {
+                log(String.format('Module {0} not initialize. Not registrate.', moduleName));
+                continue;
             }
-            catch(exception) {
-                initializeResult = false;
-                result = false;
-                var message = exception.message;
-                if (exception instanceof UnitySpace.Exception) {
-                    message = exception.message;
-                }
-                errorMessage = 'Error: '+message;
-            }
-            console.write(
-                    module.name,
-                    result ? 'OK' : 'FAILED',
-                    result ? 'green' : 'red',
-                    errorMessage);
+            initialized = this._initializeModule(moduleName);
         }
-        console.clearTemplate();
-        if (!initializeResult)
+
+        this.console.clearTemplate();
+        if (!initialized)
             this.taskQueue.clear();
+    },
+
+    _initializeModule:function (moduleName) {
+        var moduleInfo = this.modules[moduleName];
+        var errorMessage = null;
+        var module = null;
+        var result = true;
+        try {
+            module = new moduleInfo.className();
+            module.validate();
+            module.initialize();
+            moduleInfo.instance = module;
+        }
+        catch(exception) {
+            result = false;
+            var message = exception.message;
+            if (exception instanceof UnitySpace.Exception) {
+                message = exception.message;
+            }
+            errorMessage = 'Error: '+message;
+        }
+        this.console.write(
+                module.name,
+                result ? 'OK' : 'FAILED',
+                result ? 'green' : 'red',
+                errorMessage);
+        return result;
     },
 
     /**
@@ -785,8 +794,8 @@ var Engine = new UnitySpace.System.Engine();
 Ext.onReady(function() {
     Engine.initialize();
     Engine.run();
-});//using System.Controllers.Namespace
-//using System.Engine
+});// using System.Controllers.Namespace
+// using System.Engine
 
 /**
  * @class UnitySpace.System.Controllers.ControllerManager
@@ -799,11 +808,10 @@ Ext.onReady(function() {
  */
 UnitySpace.System.Controllers.ControllerManager = function() {
     UnitySpace.System.Controllers.ControllerManager.superclass.constructor.apply(this, arguments);
+    this.controllers = {};
 };
 
 Ext.extend(UnitySpace.System.Controllers.ControllerManager, Object, {
-    controllers: {},
-
     /**
      * Return controller instance by name
      * @param {String} name Name of controller
@@ -829,12 +837,13 @@ Ext.extend(UnitySpace.System.Controllers.ControllerManager, Object, {
      * Registrate new controller.
      * @param {String} name Controller name
      * @param {Function} controllerClass Controller class
+     * @param {Boolean} override Override
      */
-    registrate: function(name, controllerClass) {
+    registrate: function(name, controllerClass, override) {
         if (Ext.isEmpty(name))
             throw new UnitySpace.ArgumentNullException("name");
 
-        if (Ext.isDefined(this.controllers[name]))
+        if (!override && Ext.isDefined(this.controllers[name]))
             throw new UnitySpace.System.Controllers.ControllerException(
                     UnitySpace.Resources.System.Controllers.ControllerAlreadyRegistrate,
                     name);
@@ -1065,7 +1074,341 @@ UnitySpace.System.Controllers.ControllerException = function() {
 };
 
 Ext.extend(UnitySpace.System.Controllers.ControllerException, UnitySpace.Exception, {});
-// System.Controllers.BaseController
+// using System.Controllers.Namespace
+
+Ext.namespace('UnitySpace.System.Controllers.Mock');// using System.Controllers.Mock.Namespace
+
+UnitySpace.System.Controllers.Mocking = function() {
+    Engine.api.registrate("UnitySpace.Account", UnitySpace.System.Controllers.Mock.AccountController, true);
+    Engine.api.registrate("UnitySpace.Projects", UnitySpace.System.Controllers.Mock.ProjectsController, true);
+    Engine.api.registrate("UnitySpace.Roles", UnitySpace.System.Controllers.Mock.RolesController, true);
+    Engine.api.registrate("UnitySpace.Users", UnitySpace.System.Controllers.Mock.UsersController, true);
+    Engine.api.registrate("UnitySpace.Repository", UnitySpace.System.Controllers.Mock.RepositoryController, true);
+};
+
+// using System.Controllers.BaseController
+// using System.Controllers.Mock.Mock
+
+/**
+ * @class UnitySpace.System.Controllers.Mock.AccountController
+ * @namespace UnitySpace.System.Controllers.Mock
+ * @extends UnitySpace.System.Controllers.BaseController
+ * AccountController class
+ * @author Max Kazarin
+ * @constructor
+ * Create new instance of UnitySpace.System.Controllers.Mock.AccountController class
+ */
+UnitySpace.System.Controllers.Mock.AccountController = function() {
+    UnitySpace.System.Controllers.Mock.AccountController.superclass.constructor.apply(this, arguments);
+};
+
+Ext.extend(UnitySpace.System.Controllers.Mock.AccountController, UnitySpace.System.Controllers.BaseController, {
+
+    /**
+     * Signin. Request url POST /signin.
+     * @param {String} userName User name
+     * @param {String} password User password
+     * @param {Boolean} remember User remember flag
+     * @param {Function} successFn Success callback function
+     * @param {Function} failureFn Failure callback function
+     * @param {Function} responseFn Response callback function
+     * @param {String} format (optional) format
+     */
+    signin: function(userName, password, remember, successFn, failureFn, responseFn, format) {
+        return null;
+    },
+
+    /**
+     * Signout. Request url DELETE /signout
+     * @param {Function} successFn Success callback function
+     * @param {Function} failureFn Failure callback function
+     * @param {Function} responseFn Response callback function
+     * @param {String} format (optional) format
+     */
+    signout: function(successFn, failureFn, responseFn, format) {
+        return null;
+    },
+
+    /**
+     * Get current user. Request url GET /user
+     * @param {Function} successFn Success callback function
+     * @param {Function} failureFn Failure callback function
+     * @param {Function} responseFn Response callback function
+     * @param {String} format (optional) format
+     */
+    get: function(successFn, failureFn, responseFn, format) {
+        return null;
+    }
+});
+// using System.Controllers.BaseController
+// using System.Controllers.Mock.Mock
+
+/**
+ * @class UnitySpace.System.Controllers.Mock.ProjectsController
+ * @namespace UnitySpace.System.Controllers.Mock
+ * @extends UnitySpace.System.Controllers.BaseController
+ * ProjectsController class
+ * @author Max Kazarin
+ * @constructor
+ * Create new instance of UnitySpace.System.Controllers.Mock.ProjectsController class
+ */
+UnitySpace.System.Controllers.Mock.ProjectsController = function() {
+    UnitySpace.System.Controllers.Mock.ProjectsController.superclass.constructor.apply(this, arguments);
+};
+
+Ext.extend(UnitySpace.System.Controllers.Mock.ProjectsController, UnitySpace.System.Controllers.BaseController, {
+
+    /**
+     * Get project by id. Request url GET /project/(projectId)
+     * @param {Number} projectId Project id
+     * @param {Function} successFn Success callback function
+     * @param {Function} failureFn Failure callback function
+     * @param {Function} responseFn Response callback function
+     * @param {String} format (optional) format
+     */
+    get: function(projectId, successFn, failureFn, responseFn, format) {
+        return null;
+    },
+
+    /**
+     * Get all project of user. Request url GET project/user/(userId)
+     * @param {Number} userId User id
+     * @param {Function} successFn Success callback function
+     * @param {Function} failureFn Failure callback function
+     * @param {Function} responseFn Response callback function
+     * @param {String} format (optional) format
+     */
+    getAll: function(userId, successFn, failureFn, responseFn, format) {
+        return null;
+    },
+
+    /**
+     * Get current project of user. Request url GET /project/current/user/(userId).
+     * @param {Number} userId User id
+     * @param {Function} successFn Success callback function
+     * @param {Function} failureFn Failure callback function
+     * @param {Function} responseFn Response callback function
+     * @param {String} format (optional) format
+     */
+    getCurrent: function(userId, successFn, failureFn, responseFn, format) {
+        return null;
+    },
+
+        /**
+     * Set current project for user. Request url GET /project/current/user/(userId).
+     * @param {Number} projectId Project id
+     * @param {Function} successFn Success callback function
+     * @param {Function} failureFn Failure callback function
+     * @param {Function} responseFn Response callback function
+     * @param {String} format (optional) format
+     */
+    setCurrent: function(projectId, userId, successFn, failureFn, responseFn, format) {
+        return null;
+    },
+
+        /**
+     * Get project components. Request url GET /project/(projectId)/applications.
+     * @param {Number} projectId Project id
+     * @param {Function} successFn Success callback function
+     * @param {Function} failureFn Failure callback function
+     * @param {Function} responseFn Response callback function
+     * @param {String} format (optional) format
+     */
+    getApplications: function(projectId, successFn, failureFn, responseFn, format) {
+        return null;
+    },
+
+    /**
+     * Create new project. Request url POST /project.
+     * @param {Object} project Project object.
+     * @param {Function} successFn Success callback function
+     * @param {Function} failureFn Failure callback function
+     * @param {Function} responseFn Response callback function
+     * @param {String} format (optional) format
+     */
+    create: function(project, successFn, failureFn, responseFn, format) {
+        return null;
+    },
+
+    /**
+     * Change user. Request url PUT /project/(projectId).
+     * @param {Number} projectId Project id
+     * @param {Object} project Project object
+     * @param {Function} successFn Success callback function
+     * @param {Function} failureFn Failure callback function
+     * @param {Function} responseFn Response callback function
+     * @param {String} format (optional) format
+     */
+    change: function(projectId, project, successFn, failureFn, responseFn, format) {
+        return null;
+    },
+
+    /**
+     * Remove user. Request url PUT /project/(projectId).
+     * @param {Number} projectId Project id
+     * @param {Function} successFn Success callback function
+     * @param {Function} failureFn Failure callback function
+     * @param {Function} responseFn Response callback function
+     * @param {String} format (optional) format
+     */
+    remove: function(projectId, successFn, failureFn, responseFn, format) {
+        return null;
+    }
+});
+// using System.Controllers.BaseController
+// using System.Controllers.Mock.Mock
+
+/**
+ * @class UnitySpace.System.Controllers.Mock.RepositoryController
+ * @namespace UnitySpace.System.Controllers
+ * @extends UnitySpace.System.Controllers.BaseController
+ * RolesController class
+ * @author Max Kazarin
+ * @constructor
+ * Create new instance of UnitySpace.System.Controllers.Mock.RolesController class
+ */
+UnitySpace.System.Controllers.Mock.RepositoryController = function() {
+    UnitySpace.System.Controllers.Mock.RepositoryController.superclass.constructor.apply(this, arguments);
+};
+
+Ext.extend(UnitySpace.System.Controllers.Mock.RepositoryController, UnitySpace.System.Controllers.BaseController, {
+});// using System.Controllers.BaseController
+// using System.Controllers.Mock.Mock
+
+/**
+ * @class UnitySpace.System.Controllers.Mock.RolesController
+ * @namespace UnitySpace.System.Mock.Controllers
+ * @extends UnitySpace.System.Controllers.BaseController
+ * RolesController class
+ * @author Max Kazarin
+ * @constructor
+ * Create new instance of UnitySpace.System.Controllers.Mock.RolesController class
+ */
+UnitySpace.System.Controllers.Mock.RolesController = function() {
+    UnitySpace.System.Controllers.Mock.RolesController.superclass.constructor.apply(this, arguments);
+};
+
+Ext.extend(UnitySpace.System.Controllers.Mock.RolesController, UnitySpace.System.Controllers.BaseController, {
+
+    /**
+     * Get all roles. Requesr url GET /roles.
+     * @param {Function} successFn Success callback function
+     * @param {Function} failureFn Failure callback function
+     * @param {Function} responseFn Response callback function
+     * @param {String} format (optional) format
+     */
+    get: function (successFn, failureFn, responseFn, format){
+        return null;
+    },
+
+    /**
+     * Set user roles in project. Request url POST /project/(projectId)/user/(userId)
+     * @param {Number} projectId Project id
+     * @param {Number} userId User id
+     * @param {Array} roles Roles
+     * @param {Function} successFn Success callback function
+     * @param {Function} failureFn Failure callback function
+     * @param {Function} responseFn Response callback function
+     * @param {String} format (optional) format
+     */
+    create: function (projectId, userId, roles, successFn, failureFn, responseFn, format){
+        return null;
+    },
+
+    /**
+     * Remove user roles in project. Request url DELET /project/(projectId)/user/(userId)
+     * @param {Number} projectId Project id
+     * @param {Number} userId User id
+     * @param {Function} successFn Success callback function
+     * @param {Function} failureFn Failure callback function
+     * @param {Function} responseFn Response callback function
+     * @param {String} format (optional) format
+     */
+    remove: function (projectId, userId, successFn, failureFn, responseFn, format){
+        return null;
+    }
+});
+// using System.Controllers.BaseController
+// using System.Controllers.Mock.Mock
+
+/**
+ * @class UnitySpace.System.Controllers.Mock.UsersController
+ * @namespace UnitySpace.System.Controllers.Mock
+ * @extends UnitySpace.System.Controllers.BaseController
+ * UsersController class
+ * @author Max Kazarin
+ * @constructor
+ * Create new instance of UnitySpace.System.Controllers.Mock.UsersController class
+ */
+UnitySpace.System.Controllers.Mock.UsersController = function() {
+    UnitySpace.System.Controllers.Mock.UsersController.superclass.constructor.apply(this, arguments);
+};
+
+Ext.extend(UnitySpace.System.Controllers.Mock.UsersController, UnitySpace.System.Controllers.BaseController, {
+
+    /**
+     * Get user in project by id. Request url GET /user/(userId)/project/(projectId)/.
+     * @param {Number} projectId Project id
+     * @param {Number} userId User id
+     * @param {Function} successFn Success callback function
+     * @param {Function} failureFn Failure callback function
+     * @param {Function} responseFn Response callback function
+     * @param {String} format (optional) format
+     */
+    get: function(projectId, userId, successFn, failureFn, responseFn, format) {
+        return null;
+    },
+
+    /**
+     * Get users in project by id. Request url GET /user/project/(projectId).
+     * @param {Number} projectId Project id
+     * @param {Function} successFn Success callback function
+     * @param {Function} failureFn Failure callback function
+     * @param {Function} responseFn Response callback function
+     * @param {String} format (optional) format
+     */
+    getAll: function(projectId, successFn, failureFn, responseFn, format) {
+        return null;
+    },
+
+    /**
+     * Create new user. Request url POST /user/project/(projectId)
+     * @param {Number} projectId Project id.
+     * @param {Object} user User object
+     * @param {Function} successFn Success callback function
+     * @param {Function} failureFn Failure callback function
+     * @param {Function} responseFn Response callback function
+     * @param {String} format (optional) format
+     */
+    create: function(projectId, user, successFn, failureFn, responseFn, format) {
+        return null;
+    },
+
+    /**
+     * Change user. Request url PUT /user/(userId).
+     * @param {Number} userId User id
+     * @param {Object} user User object
+     * @param {Function} successFn Success callback function
+     * @param {Function} failureFn Failure callback function
+     * @param {Function} responseFn Response callback function
+     * @param {String} format (optional) format
+     */
+    change: function(userId, user, successFn, failureFn, responseFn, format) {
+        return null;
+    },
+
+    /**
+     * Remove user. Request url DELETE /user/(userId).
+     * @param {Number} userId User id
+     * @param {Function} successFn Success callback function
+     * @param {Function} failureFn Failure callback function
+     * @param {Function} responseFn Response callback function
+     * @param {String} format (optional) format
+     */
+    remove: function(userId, successFn, failureFn, responseFn, format) {
+        return null;
+    }
+});// using System.Controllers.BaseController
 
 /**
  * @class UnitySpace.System.Controllers.ProjectsController
@@ -1241,7 +1584,25 @@ Ext.extend(UnitySpace.System.Controllers.ProjectsController, UnitySpace.System.C
     }
 });
 
-Engine.api.registrate("UnitySpace.Projects", UnitySpace.System.Controllers.ProjectsController);// System.Controllers.BaseController
+Engine.api.registrate("UnitySpace.Projects", UnitySpace.System.Controllers.ProjectsController);// using System.Controllers.BaseController
+
+/**
+ * @class UnitySpace.System.Controllers.RepositoryController
+ * @namespace UnitySpace.System.Controllers
+ * @extends UnitySpace.System.Controllers.BaseController
+ * RolesController class
+ * @author Max Kazarin
+ * @constructor
+ * Create new instance of UnitySpace.System.Controllers.RolesController class
+ */
+UnitySpace.System.Controllers.RepositoryController = function() {
+    UnitySpace.System.Controllers.RepositoryController.superclass.constructor.apply(this, arguments);
+};
+
+Ext.extend(UnitySpace.System.Controllers.RepositoryController, UnitySpace.System.Controllers.BaseController, {
+});
+
+Engine.api.registrate("UnitySpace.Repository", UnitySpace.System.Controllers.RepositoryController);// using System.Controllers.BaseController
 
 /**
  * @class UnitySpace.System.Controllers.RolesController
@@ -1320,7 +1681,7 @@ Ext.extend(UnitySpace.System.Controllers.RolesController, UnitySpace.System.Cont
     }
 });
 
-Engine.api.registrate("UnitySpace.Roles", UnitySpace.System.Controllers.RolesController);// System.Controllers.BaseController
+Engine.api.registrate("UnitySpace.Roles", UnitySpace.System.Controllers.RolesController);// using System.Controllers.BaseController
 
 /**
  * @class UnitySpace.System.Controllers.UsersController
@@ -1471,7 +1832,16 @@ UnitySpace.System.EManifestType = {
      * Class library type
      */
     ClassLibrary: 11
-};// using System.Namespace
+};Engine.init = [
+    "Debug",
+    "ExtJS",
+    "Keyboard",
+    "GINA",
+    "Repository",
+    "ProjectProfile",
+    "CommandShell"
+];
+// using System.Namespace
 
 /**
  * @class UnitySpace.System.Manifest
@@ -1572,6 +1942,7 @@ UnitySpace.System.Modules.BaseModule = Ext.extend(Ext.util.Observable, {
      * Initialize module resources
      */
     initialize: function() {
+        log(String.format('Initialize module {0}.', this.name));
     },
 
     /**
@@ -1741,25 +2112,23 @@ UnitySpace.System.Modules.DebugModule = Ext.extend(UnitySpace.System.Modules.Bas
         if (!Ext.isDefined(log4javascript))
             throw new UnitySpace.System.Modules.ModuleException(UnitySpace.Resources.System.Modules.DebugModule.Log4JavaScriptNotFound);
 
-        log = log4javascript.getLogger();
+        var doMock = Engine.config.get('Debug.mock', false);
+        if (doMock) {
+            log('Mock enable');
+            UnitySpace.System.Controllers.Mocking();
+        }
+        //log = log4javascript.getLogger();
 		// Create a PopUpAppender with default options
 		//var popUpAppender = new log4javascript.InPageAppender();
         //var popUpAppender = new log4javascript.PopUpAppender();
-        var popUpAppender = new log4javascript.BrowserConsoleAppender();
+        //var popUpAppender = new log4javascript.BrowserConsoleAppender();
 
 		// Change the desired configuration options
 		//popUpAppender.setFocusPopUp(true);
 		//popUpAppender.setNewestMessageAtTop(true);
 
 		// Add the appender to the logger
-		log.addAppender(popUpAppender);
-        /*if (window.console && window.console.log) {
-        	log = function () { window.console.log(arguments.length > 1 ? arguments : arguments[0]); };
-        } else if ( Ext.log ) {
-            log = window.Ext.log;
-        } else {
-            log = Ext.emptyFn;
-        }*/
+		//log.addAppender(popUpAppender);
 
         this.subscribe( '*', this._logChannels);
     },
@@ -1776,7 +2145,7 @@ UnitySpace.System.Modules.DebugModule = Ext.extend(UnitySpace.System.Modules.Bas
             message = 'function';
         else if (!Ext.isDefined(event))
             message = '';
-        log.info(String.format('channel: [{0}] {1}', channel, message));
+        log(String.format('channel: [{0}] {1}', channel, message));
     }
 });
 
@@ -1918,7 +2287,7 @@ UnitySpace.System.Modules.ExtJSModule = Ext.extend(UnitySpace.System.Modules.Bas
         Ext.Ajax.on('requestcomplete', function(conn, response, options) {
             try {
                 var header = response.getAllResponseHeaders();
-                log.debug('url='+options.url + '\nheader=' +header);
+                log('url='+options.url + '\nheader=' +header);
                 //if (options.headers.Accept.indexOf('application/json') != -1)
                 if (header.indexOf('application/json') != -1)
                     this.decodeResponse(response);
@@ -1940,10 +2309,13 @@ UnitySpace.System.Modules.ExtJSModule = Ext.extend(UnitySpace.System.Modules.Bas
             }
 
             try {
+                if (response.status == 0 || !Ext.isDefined(response.responseText))
+                    throw response.statusText;
+
                 if (!options.headers.Accept)
                     this.decodeResponse(response);
                 else if (options.headers.Accept.indexOf('application/json') != -1)
-                        this.decodeResponse(response);
+                    this.decodeResponse(response);
 
 
                 if (response.responseData && !UnitySpace.System.Net.ActionResponse.canParse(response))
@@ -1987,7 +2359,120 @@ UnitySpace.System.Modules.ExtJSModule = Ext.extend(UnitySpace.System.Modules.Bas
 });
 
 Engine.registrate(UnitySpace.System.Modules.ExtJSModule);
-// using System.Modules.BaseModule
+// using System.Namespace
+
+Ext.namespace('UnitySpace.System.Security');
+// using System.Security.Namespace
+
+/**
+ * @class UnitySpace.System.Security.Ability
+ * @namespace UnitySpace.System.Security
+ * @extends Object
+ * Ability class
+ * @author Max Kazarin
+ * @constructor
+ * Create new instance of UnitySpace.System.Security.Ability class
+ */
+UnitySpace.System.Security.Ability = function() {
+    UnitySpace.System.Security.Ability.superclass.constructor.apply(this, arguments);
+};
+
+Ext.extend(UnitySpace.System.Security.Ability, Object, {
+    context: null,
+
+    initialize: function(user, project) {
+        this.user = user;
+        this.project = project;
+    },
+
+    ability: function(project) {
+        this.context = {
+            user: this.user,
+            project: project ? project : this.project
+        };
+
+        return this;
+    },
+
+    can: function(name) {
+        var result = null;
+        var can = null;
+
+        var roles = this.context.project.roles;
+        if (!roles)
+            return false;
+
+        for (var index = 0; index <= roles.length; index++) {
+            if (index == roles.length) {
+                can = this.rules.All[name];
+            }
+            else {
+                var rules = this.rules[roles[index]];
+                if (!rules)
+                    continue;
+
+                can = rules[name];
+            }
+
+            if (Ext.isFunction(can)) {
+                var arg = null;
+                if (arguments.length > 1) {
+                    arg = [];
+                    for (index = 1; index < arguments.length; index++)
+                        arg.push(arguments[index]);
+                }
+                result = can.apply(this, arg);
+            }
+            else
+                result = can;
+
+            if (result != null)
+                return result;
+        }
+
+        return false;
+    },
+
+    rules: {
+        Owner: {
+            leave_project: false,
+            edit_project: true,
+            read_application: true,
+            remove_project: true,
+
+            remove_user: function(roles) {
+                return roles.indexOf('Owner') == -1;
+            },
+            edit_user: true,
+            read_roles: true,
+            add_user: true
+        },
+        Admin: {
+            edit_project: true,
+            read_application: true,
+
+            remove_user: function(roles) {
+                return roles.indexOf('Owner') == -1;
+            },
+            edit_user: function(roles) {
+                return roles.indexOf('Owner') == -1;
+            },
+            read_roles: true,
+            add_user: true
+        },
+        All: {
+            switch_project: function(projectId) {
+                return this.project.id != projectId;
+            },
+            leave_project: true,
+            //switch_project: true//,
+            read_user: true
+        }
+    }
+});
+
+//Security.Ability.Rules = Security.Ability.prototype.rules;// using System.Modules.BaseModule
+// using System.Security.Ability
 
 /**
  * @class UnitySpace.System.Modules.DebugModule
@@ -2226,7 +2711,7 @@ UnitySpace.System.Modules.KeyboardModule = Ext.extend(UnitySpace.System.Modules.
                     return;
                 t = t.toLowerCase();
                 if (t != "input" && t != "textarea") {
-                    log.debug( 'stopping backspace for tag: '+t);
+                    log( 'stopping backspace for tag: '+t);
                     e.stopEvent();
                 }
             }
@@ -2322,7 +2807,6 @@ UnitySpace.System.Modules.ProjectProfileModule = Ext.extend(UnitySpace.System.Mo
      * Initialize module resources
      */
     initialize: function() {
-        debug();
         UnitySpace.System.Modules.ProjectProfileModule.superclass.initialize.apply(this, arguments);
 
         this.projectsController = Engine.api.get('UnitySpace.Projects');
@@ -2640,7 +3124,9 @@ UnitySpace.System.Modules.RepositoryModule = Ext.extend(UnitySpace.System.Module
     list: function(start, limit) {
 
     }
-});// using System.Modules.Namespace
+});
+
+Engine.registrate(UnitySpace.System.Modules.RepositoryModule);// using System.Modules.Namespace
 
 /**
  * @class UnitySpace.System.Modules.User
@@ -2728,119 +3214,7 @@ UnitySpace.System.Net.ConnectionException = function() {
 };
 
 Ext.extend(UnitySpace.System.Net.ConnectionException, UnitySpace.Exception, {});
-// using System.Namespace
-
-Ext.namespace('UnitySpace.System.Security');
 // using System.Security.Namespace
-
-/**
- * @class UnitySpace.System.Security.Ability
- * @namespace UnitySpace.System.Security
- * @extends Object
- * Ability class
- * @author Max Kazarin
- * @constructor
- * Create new instance of UnitySpace.System.Security.Ability class
- */
-UnitySpace.System.Security.Ability = function() {
-    UnitySpace.System.Security.Ability.superclass.constructor.apply(this, arguments);
-};
-
-Ext.extend(UnitySpace.System.Security.Ability, Object, {
-    context: null,
-
-    initialize: function(user, project) {
-        this.user = user;
-        this.project = project;
-    },
-
-    ability: function(project) {
-        this.context = {
-            user: this.user,
-            project: project ? project : this.project
-        };
-
-        return this;
-    },
-
-    can: function(name) {
-        var result = null;
-        var can = null;
-
-        var roles = this.context.project.roles;
-        if (!roles)
-            return false;
-
-        for (var index = 0; index <= roles.length; index++) {
-            if (index == roles.length) {
-                can = this.rules.All[name];
-            }
-            else {
-                var rules = this.rules[roles[index]];
-                if (!rules)
-                    continue;
-
-                can = rules[name];
-            }
-
-            if (Ext.isFunction(can)) {
-                var arg = null;
-                if (arguments.length > 1) {
-                    arg = [];
-                    for (index = 1; index < arguments.length; index++)
-                        arg.push(arguments[index]);
-                }
-                result = can.apply(this, arg);
-            }
-            else
-                result = can;
-
-            if (result != null)
-                return result;
-        }
-
-        return false;
-    },
-
-    rules: {
-        Owner: {
-            leave_project: false,
-            edit_project: true,
-            read_application: true,
-            remove_project: true,
-
-            remove_user: function(roles) {
-                return roles.indexOf('Owner') == -1;
-            },
-            edit_user: true,
-            read_roles: true,
-            add_user: true
-        },
-        Admin: {
-            edit_project: true,
-            read_application: true,
-
-            remove_user: function(roles) {
-                return roles.indexOf('Owner') == -1;
-            },
-            edit_user: function(roles) {
-                return roles.indexOf('Owner') == -1;
-            },
-            read_roles: true,
-            add_user: true
-        },
-        All: {
-            switch_project: function(projectId) {
-                return this.project.id != projectId;
-            },
-            leave_project: true,
-            //switch_project: true//,
-            read_user: true
-        }
-    }
-});
-
-//Security.Ability.Rules = Security.Ability.prototype.rules;// using System.Security.Namespace
 // using Exception
 
 /**
