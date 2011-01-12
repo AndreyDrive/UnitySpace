@@ -84,6 +84,10 @@
 					"path": "src/System/Controllers/"
 				},
 				{
+					"text": "ProjectsController.js",
+					"path": "src/System/Controllers/"
+				},
+				{
 					"text": "RolesController.js",
 					"path": "src/System/Controllers/"
 				},
@@ -267,6 +271,10 @@
 				},
 				{
 					"text": "ControllerException.js",
+					"path": "src/System/Controllers/"
+				},
+				{
+					"text": "ProjectsController.js",
 					"path": "src/System/Controllers/"
 				},
 				{

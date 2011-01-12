@@ -25,7 +25,6 @@ UnitySpace.System.Modules.DebugModule = Ext.extend(UnitySpace.System.Modules.Bas
         if (!Ext.isDefined(DEBUG))
             return;
 
-        debug = new Function('debugger;'); 
         //DEBUG = true;
 
         if (!Ext.isDefined(log4javascript))

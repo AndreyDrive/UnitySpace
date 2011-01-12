@@ -1,0 +1,51 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Jasmine Test Runner</title>
+	<link rel="stylesheet" type="text/css" href="lib/jasmine/jasmine.css">
+	<link rel="stylesheet" type="text/css" href="app/UnitySpace/deploy/resources/css/unityspace.css">
+
+	<script type="text/javascript" src="lib/jasmine/jasmine.js"></script>
+	<script type="text/javascript" src="lib/jasmine/jasmine-html.js"></script>
+
+	<script type="text/javascript" src="lib/log4javascript/log4javascript.js"></script>
+
+	<script type="text/javascript" src="lib/ext-3.3.0/adapter/ext/ext-base-debug.js"></script>
+	<script type="text/javascript" src="lib/ext-3.3.0/ext-all-debug.js"></script>
+	<script type="text/javascript" src="lib/ext-3.3.0/ext-lang.ru-RU.js"></script>
+
+	<script type="text/javascript" src="app/UnitySpace/deploy/unityspace.ru-RU-debug.js"></script>
+
+	<script type="text/javascript">
+	    var DEBUG = true;
+	</script>
+</head>
+<body>
+	<script type="text/javascript">
+		jasmine.getEnv().addReporter(new jasmine.TrivialReporter());
+		jasmine.getEnv().execute();
+
+		Engine.configurate({
+		    Authenticate: {
+		        type: 'FormAuthenticate'
+		    },
+		    Connection: {
+		        restfull: true
+		    }
+		});
+
+		Engine.subscribe('/modules/gina/beforelogon', function (validateFn) {
+		    validateFn('test', 'qwerty', true);
+		});
+
+		Engine.subscribe('/modules/gina/error', function () {
+		    //alert(message)
+		});
+
+		Engine.subscribe('/modules/gina/logon', function () {
+		    //alert('ok')
+		});
+	</script>
+</body>
+</html>

@@ -646,6 +646,8 @@ Ext.extend(UnitySpace.TaskQueue, Ext.util.Observable, {
  * @constructor
  * Create new instance of engine class
  */
+debug = new Function('debugger;');
+
 UnitySpace.System.Engine = function() {
     this.modules = {};
     this.config = null;
@@ -1066,6 +1068,182 @@ Ext.extend(UnitySpace.System.Controllers.ControllerException, UnitySpace.Excepti
 // System.Controllers.BaseController
 
 /**
+ * @class UnitySpace.System.Controllers.ProjectsController
+ * @namespace UnitySpace.System.Controllers
+ * @extends UnitySpace.System.Controllers.BaseController
+ * ProjectsController class
+ * @author Max Kazarin
+ * @constructor
+ * Create new instance of UnitySpace.System.Controllers.ProjectsController class
+ */
+UnitySpace.System.Controllers.ProjectsController = function() {
+    UnitySpace.System.Controllers.ProjectsController.superclass.constructor.apply(this, arguments);
+};
+
+Ext.extend(UnitySpace.System.Controllers.ProjectsController, UnitySpace.System.Controllers.BaseController, {
+
+    /**
+     * Get project by id. Request url GET /project/(projectId)
+     * @param {Number} projectId Project id
+     * @param {Function} successFn Success callback function
+     * @param {Function} failureFn Failure callback function
+     * @param {Function} responseFn Response callback function
+     * @param {String} format (optional) format
+     */
+    get: function(projectId, successFn, failureFn, responseFn, format) {
+        this.invoke(
+            '/project/'+projectId,
+            'GET',
+            null,
+            successFn,
+            failureFn,
+            responseFn,
+            format);
+    },
+
+    /**
+     * Get all project of user. Request url GET project/user/(userId)
+     * @param {Number} userId User id
+     * @param {Function} successFn Success callback function
+     * @param {Function} failureFn Failure callback function
+     * @param {Function} responseFn Response callback function
+     * @param {String} format (optional) format
+     */
+    getAll: function(userId, successFn, failureFn, responseFn, format) {
+        this.invoke(
+            '/project/user/'+userId,
+            'GET',
+            null,
+            successFn,
+            failureFn,
+            responseFn,
+            format);
+    },
+
+    /**
+     * Get current project of user. Request url GET /project/current/user/(userId).
+     * @param {Number} userId User id
+     * @param {Function} successFn Success callback function
+     * @param {Function} failureFn Failure callback function
+     * @param {Function} responseFn Response callback function
+     * @param {String} format (optional) format
+     */
+    getCurrent: function(userId, successFn, failureFn, responseFn, format) {
+        this.invoke(
+            '/project/current/user/'+userId,
+            url,
+            'GET',
+            null,
+            successFn,
+            failureFn,
+            responseFn,
+            format);
+    },
+
+        /**
+     * Set current project for user. Request url GET /project/current/user/(userId).
+     * @param {Number} projectId Project id
+     * @param {Function} successFn Success callback function
+     * @param {Function} failureFn Failure callback function
+     * @param {Function} responseFn Response callback function
+     * @param {String} format (optional) format
+     */
+    setCurrent: function(projectId, userId, successFn, failureFn, responseFn, format) {
+        this.invoke(
+            '/project/current/user/'+userId,
+            'POST',
+            {projectId: projectId},
+            successFn,
+            failureFn,
+            responseFn,
+            format);
+    },
+
+        /**
+     * Get project components. Request url GET /project/(projectId)/applications.
+     * @param {Number} projectId Project id
+     * @param {Function} successFn Success callback function
+     * @param {Function} failureFn Failure callback function
+     * @param {Function} responseFn Response callback function
+     * @param {String} format (optional) format
+     */
+    getApplications: function(projectId, successFn, failureFn, responseFn, format) {
+        this.invoke(
+            '/project/'+projectId+'/applications',
+            'GET',
+            null,
+            successFn,
+            failureFn,
+            responseFn,
+            format);
+    },
+
+    /**
+     * Create new project. Request url POST /project.
+     * @param {Object} project Project object.
+     * @param {Function} successFn Success callback function
+     * @param {Function} failureFn Failure callback function
+     * @param {Function} responseFn Response callback function
+     * @param {String} format (optional) format
+     */
+    create: function(project, successFn, failureFn, responseFn, format) {
+        this.invoke(
+            'project',
+            'POST',
+            {
+                project: project
+            },
+            successFn,
+            failureFn,
+            responseFn,
+            format);
+    },
+
+    /**
+     * Change user. Request url PUT /project/(projectId).
+     * @param {Number} projectId Project id
+     * @param {Object} project Project object
+     * @param {Function} successFn Success callback function
+     * @param {Function} failureFn Failure callback function
+     * @param {Function} responseFn Response callback function
+     * @param {String} format (optional) format
+     */
+    change: function(projectId, project, successFn, failureFn, responseFn, format) {
+        this.invoke(
+            '/project/'+projectId,
+            'PUT',
+            {
+                project: project
+            },
+            successFn,
+            failureFn,
+            responseFn,
+            format);
+    },
+
+    /**
+     * Remove user. Request url PUT /project/(projectId).
+     * @param {Number} projectId Project id
+     * @param {Function} successFn Success callback function
+     * @param {Function} failureFn Failure callback function
+     * @param {Function} responseFn Response callback function
+     * @param {String} format (optional) format
+     */
+    remove: function(projectId, successFn, failureFn, responseFn, format) {
+        this.invoke(
+            '/project/'+projectId,
+            'DELETE',
+            null,
+            successFn,
+            failureFn,
+            responseFn,
+            format);
+    }
+});
+
+Engine.api.registrate("UnitySpace.Projects", UnitySpace.System.Controllers.ProjectsController);// System.Controllers.BaseController
+
+/**
  * @class UnitySpace.System.Controllers.RolesController
  * @namespace UnitySpace.System.Controllers
  * @extends UnitySpace.System.Controllers.BaseController
@@ -1160,7 +1338,7 @@ UnitySpace.System.Controllers.UsersController = function() {
 Ext.extend(UnitySpace.System.Controllers.UsersController, UnitySpace.System.Controllers.BaseController, {
 
     /**
-     * Get user in project by id. Request url GET /project/(projectId)/user/(userId).
+     * Get user in project by id. Request url GET /user/(userId)/project/(projectId)/.
      * @param {Number} projectId Project id
      * @param {Number} userId User id
      * @param {Function} successFn Success callback function
@@ -1169,13 +1347,8 @@ Ext.extend(UnitySpace.System.Controllers.UsersController, UnitySpace.System.Cont
      * @param {String} format (optional) format
      */
     get: function(projectId, userId, successFn, failureFn, responseFn, format) {
-        var url = '/project/';
-        if (projectId)
-            url += projectId+'/';
-        url += 'user/'+userId;
-
         this.invoke(
-            url,
+            '/user/'+userId+'/project/'+projectId,
             'GET',
             null,
             successFn,
@@ -1185,7 +1358,7 @@ Ext.extend(UnitySpace.System.Controllers.UsersController, UnitySpace.System.Cont
     },
 
     /**
-     * Get users in project by id. Request url GET /project/(projectId)/user.
+     * Get users in project by id. Request url GET /user/project/(projectId).
      * @param {Number} projectId Project id
      * @param {Function} successFn Success callback function
      * @param {Function} failureFn Failure callback function
@@ -1193,14 +1366,8 @@ Ext.extend(UnitySpace.System.Controllers.UsersController, UnitySpace.System.Cont
      * @param {String} format (optional) format
      */
     getAll: function(projectId, successFn, failureFn, responseFn, format) {
-        var url = '/project/';
-        if (projectId)
-            url += projectId+'/';
-        url += 'user';
-
         this.invoke(
-            //'project/'+projectId+'/users',
-            url,
+            '/user/project/'+projectId,
             'GET',
             null,
             successFn,
@@ -1210,7 +1377,7 @@ Ext.extend(UnitySpace.System.Controllers.UsersController, UnitySpace.System.Cont
     },
 
     /**
-     * Create new user. Request url POST /project/(projectId)/user.
+     * Create new user. Request url POST /user/project/(projectId)
      * @param {Number} projectId Project id.
      * @param {Object} user User object
      * @param {Function} successFn Success callback function
@@ -1219,13 +1386,8 @@ Ext.extend(UnitySpace.System.Controllers.UsersController, UnitySpace.System.Cont
      * @param {String} format (optional) format
      */
     create: function(projectId, user, successFn, failureFn, responseFn, format) {
-        var url = '/project/';
-        if (projectId)
-            url += projectId+'/';
-        url += 'user';
-
         this.invoke(
-            url,
+            '/user/project/' + projectId,
             'POST',
             {
                 user: user
@@ -1259,7 +1421,7 @@ Ext.extend(UnitySpace.System.Controllers.UsersController, UnitySpace.System.Cont
     },
 
     /**
-     * Remove user.
+     * Remove user. Request url DELETE /user/(userId).
      * @param {Number} userId User id
      * @param {Function} successFn Success callback function
      * @param {Function} failureFn Failure callback function
@@ -1574,7 +1736,6 @@ UnitySpace.System.Modules.DebugModule = Ext.extend(UnitySpace.System.Modules.Bas
         if (!Ext.isDefined(DEBUG))
             return;
 
-        debug = new Function('debugger;'); 
         //DEBUG = true;
 
         if (!Ext.isDefined(log4javascript))
@@ -1583,11 +1744,12 @@ UnitySpace.System.Modules.DebugModule = Ext.extend(UnitySpace.System.Modules.Bas
         log = log4javascript.getLogger();
 		// Create a PopUpAppender with default options
 		//var popUpAppender = new log4javascript.InPageAppender();
-        var popUpAppender = new log4javascript.PopUpAppender();
+        //var popUpAppender = new log4javascript.PopUpAppender();
+        var popUpAppender = new log4javascript.BrowserConsoleAppender();
 
 		// Change the desired configuration options
-		popUpAppender.setFocusPopUp(true);
-		popUpAppender.setNewestMessageAtTop(true);
+		//popUpAppender.setFocusPopUp(true);
+		//popUpAppender.setNewestMessageAtTop(true);
 
 		// Add the appender to the logger
 		log.addAppender(popUpAppender);

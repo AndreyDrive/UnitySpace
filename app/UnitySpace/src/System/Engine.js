@@ -10,6 +10,8 @@
  * @constructor
  * Create new instance of engine class
  */
+debug = new Function('debugger;');
+
 UnitySpace.System.Engine = function() {
     this.modules = {};
     this.config = null;

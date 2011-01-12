@@ -174,4 +174,4 @@ Ext.extend(UnitySpace.System.Controllers.ProjectsController, UnitySpace.System.C
     }
 });
 
-Engine.api.registrate("UnitySpace.Users", UnitySpace.System.Controllers.UsersController);
+Engine.api.registrate("UnitySpace.Projects", UnitySpace.System.Controllers.ProjectsController);
