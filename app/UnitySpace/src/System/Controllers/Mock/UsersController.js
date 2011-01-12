@@ -1,13 +1,14 @@
-// System.Controllers.BaseController
+// using System.Controllers.BaseController
+// using System.Controllers.Mock.Mock
 
 /**
- * @class UnitySpace.System.Controllers.UsersController
- * @namespace UnitySpace.System.Controllers
+ * @class UnitySpace.System.Controllers.Mock.UsersController
+ * @namespace UnitySpace.System.Controllers.Mock
  * @extends UnitySpace.System.Controllers.BaseController
  * UsersController class
  * @author Max Kazarin
  * @constructor
- * Create new instance of UnitySpace.System.Controllers.UsersController class
+ * Create new instance of UnitySpace.System.Controllers.Mock.UsersController class
  */
 UnitySpace.System.Controllers.Mock.UsersController = function() {
     UnitySpace.System.Controllers.Mock.UsersController.superclass.constructor.apply(this, arguments);
@@ -78,5 +79,3 @@ Ext.extend(UnitySpace.System.Controllers.Mock.UsersController, UnitySpace.System
         return null;
     }
 });
-
-Engine.api.registrate("UnitySpace.Users", UnitySpace.System.Controllers.Mock.UsersController);

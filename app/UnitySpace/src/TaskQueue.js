@@ -10,12 +10,12 @@
  * Create new instance of UnitySpace.TaskQueue class
  */
 UnitySpace.TaskQueue = function(config) {
+    UnitySpace.TaskQueue.superclass.constructor.apply(this, arguments);
+
     Ext.apply(this, config);
     this.addEvents('run','stop');
     this.tasks = new Array();
     this.lastTasks = new Array();
-
-    UnitySpace.TaskQueue.superclass.constructor.apply(this, arguments);
 };
 
 Ext.extend(UnitySpace.TaskQueue, Ext.util.Observable, {

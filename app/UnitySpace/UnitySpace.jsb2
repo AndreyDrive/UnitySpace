@@ -84,7 +84,39 @@
 					"path": "src/System/Controllers/"
 				},
 				{
+					"text": "Namespace.js",
+					"path": "src/System/Controllers/Mock/"
+				},
+				{
+					"text": "Mock.js",
+					"path": "src/System/Controllers/Mock/"
+				},
+				{
+					"text": "AccountController.js",
+					"path": "src/System/Controllers/Mock/"
+				},
+				{
 					"text": "ProjectsController.js",
+					"path": "src/System/Controllers/Mock/"
+				},
+				{
+					"text": "RepositoryController.js",
+					"path": "src/System/Controllers/Mock/"
+				},
+				{
+					"text": "RolesController.js",
+					"path": "src/System/Controllers/Mock/"
+				},
+				{
+					"text": "UsersController.js",
+					"path": "src/System/Controllers/Mock/"
+				},
+				{
+					"text": "ProjectsController.js",
+					"path": "src/System/Controllers/"
+				},
+				{
+					"text": "RepositoryController.js",
 					"path": "src/System/Controllers/"
 				},
 				{
@@ -97,6 +129,10 @@
 				},
 				{
 					"text": "EManifestType.js",
+					"path": "src/System/"
+				},
+				{
+					"text": "Init.js",
 					"path": "src/System/"
 				},
 				{
@@ -122,6 +158,14 @@
 				{
 					"text": "ExtJSModule.js",
 					"path": "src/System/Modules/"
+				},
+				{
+					"text": "Namespace.js",
+					"path": "src/System/Security/"
+				},
+				{
+					"text": "Ability.js",
+					"path": "src/System/Security/"
 				},
 				{
 					"text": "GINAModule.js",
@@ -158,14 +202,6 @@
 				{
 					"text": "ConnectionException.js",
 					"path": "src/System/Net/"
-				},
-				{
-					"text": "Namespace.js",
-					"path": "src/System/Security/"
-				},
-				{
-					"text": "Ability.js",
-					"path": "src/System/Security/"
 				},
 				{
 					"text": "AuthenticateProviderException.js",
@@ -274,7 +310,39 @@
 					"path": "src/System/Controllers/"
 				},
 				{
+					"text": "Namespace.js",
+					"path": "src/System/Controllers/Mock/"
+				},
+				{
+					"text": "Mock.js",
+					"path": "src/System/Controllers/Mock/"
+				},
+				{
+					"text": "AccountController.js",
+					"path": "src/System/Controllers/Mock/"
+				},
+				{
 					"text": "ProjectsController.js",
+					"path": "src/System/Controllers/Mock/"
+				},
+				{
+					"text": "RepositoryController.js",
+					"path": "src/System/Controllers/Mock/"
+				},
+				{
+					"text": "RolesController.js",
+					"path": "src/System/Controllers/Mock/"
+				},
+				{
+					"text": "UsersController.js",
+					"path": "src/System/Controllers/Mock/"
+				},
+				{
+					"text": "ProjectsController.js",
+					"path": "src/System/Controllers/"
+				},
+				{
+					"text": "RepositoryController.js",
 					"path": "src/System/Controllers/"
 				},
 				{
@@ -287,6 +355,10 @@
 				},
 				{
 					"text": "EManifestType.js",
+					"path": "src/System/"
+				},
+				{
+					"text": "Init.js",
 					"path": "src/System/"
 				},
 				{
@@ -312,6 +384,14 @@
 				{
 					"text": "ExtJSModule.js",
 					"path": "src/System/Modules/"
+				},
+				{
+					"text": "Namespace.js",
+					"path": "src/System/Security/"
+				},
+				{
+					"text": "Ability.js",
+					"path": "src/System/Security/"
 				},
 				{
 					"text": "GINAModule.js",
@@ -348,14 +428,6 @@
 				{
 					"text": "ConnectionException.js",
 					"path": "src/System/Net/"
-				},
-				{
-					"text": "Namespace.js",
-					"path": "src/System/Security/"
-				},
-				{
-					"text": "Ability.js",
-					"path": "src/System/Security/"
 				},
 				{
 					"text": "AuthenticateProviderException.js",

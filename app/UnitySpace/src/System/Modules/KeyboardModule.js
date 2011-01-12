@@ -33,7 +33,7 @@ UnitySpace.System.Modules.KeyboardModule = Ext.extend(UnitySpace.System.Modules.
                     return;
                 t = t.toLowerCase();
                 if (t != "input" && t != "textarea") {
-                    log.debug( 'stopping backspace for tag: '+t);
+                    log( 'stopping backspace for tag: '+t);
                     e.stopEvent();
                 }
             }

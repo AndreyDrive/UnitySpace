@@ -1,13 +1,14 @@
 // using System.Controllers.BaseController
+// using System.Controllers.Mock.Mock
 
 /**
- * @class UnitySpace.System.Controllers.AccountController
- * @namespace UnitySpace.System.Controllers
+ * @class UnitySpace.System.Controllers.Mock.AccountController
+ * @namespace UnitySpace.System.Controllers.Mock
  * @extends UnitySpace.System.Controllers.BaseController
  * AccountController class
  * @author Max Kazarin
  * @constructor
- * Create new instance of UnitySpace.System.Controllers.AccountController class
+ * Create new instance of UnitySpace.System.Controllers.Mock.AccountController class
  */
 UnitySpace.System.Controllers.Mock.AccountController = function() {
     UnitySpace.System.Controllers.Mock.AccountController.superclass.constructor.apply(this, arguments);
@@ -49,6 +50,5 @@ Ext.extend(UnitySpace.System.Controllers.Mock.AccountController, UnitySpace.Syst
      */
     get: function(successFn, failureFn, responseFn, format) {
         return null;
+    }
 });
-
-Engine.api.registrate("UnitySpace.Account", UnitySpace.System.Controllers.Mock.AccountController);

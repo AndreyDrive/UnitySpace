@@ -70,6 +70,7 @@ UnitySpace.System.Modules.BaseModule = Ext.extend(Ext.util.Observable, {
      * Initialize module resources
      */
     initialize: function() {
+        log(String.format('Initialize module {0}.', this.name));
     },
 
     /**

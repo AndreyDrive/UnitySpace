@@ -1,5 +1,5 @@
-//using System.Controllers.Namespace
-//using System.Engine
+// using System.Controllers.Namespace
+// using System.Engine
 
 /**
  * @class UnitySpace.System.Controllers.ControllerManager
@@ -12,11 +12,10 @@
  */
 UnitySpace.System.Controllers.ControllerManager = function() {
     UnitySpace.System.Controllers.ControllerManager.superclass.constructor.apply(this, arguments);
+    this.controllers = {};
 };
 
 Ext.extend(UnitySpace.System.Controllers.ControllerManager, Object, {
-    controllers: {},
-
     /**
      * Return controller instance by name
      * @param {String} name Name of controller
@@ -42,12 +41,13 @@ Ext.extend(UnitySpace.System.Controllers.ControllerManager, Object, {
      * Registrate new controller.
      * @param {String} name Controller name
      * @param {Function} controllerClass Controller class
+     * @param {Boolean} override Override
      */
-    registrate: function(name, controllerClass) {
+    registrate: function(name, controllerClass, override) {
         if (Ext.isEmpty(name))
             throw new UnitySpace.ArgumentNullException("name");
 
-        if (Ext.isDefined(this.controllers[name]))
+        if (!override && Ext.isDefined(this.controllers[name]))
             throw new UnitySpace.System.Controllers.ControllerException(
                     UnitySpace.Resources.System.Controllers.ControllerAlreadyRegistrate,
                     name);
