@@ -1,10 +1,9 @@
-// using System.Controllers.BaseController
-// using System.Controllers.Mock.Mock
+// using System.Controllers.Mock.BaseMockController
 
 /**
  * @class UnitySpace.System.Controllers.Mock.RolesController
  * @namespace UnitySpace.System.Mock.Controllers
- * @extends UnitySpace.System.Controllers.BaseController
+ * @extends UnitySpace.System.Controllers.Mock.BaseMockController
  * RolesController class
  * @author Max Kazarin
  * @constructor
@@ -14,7 +13,7 @@ UnitySpace.System.Controllers.Mock.RolesController = function() {
     UnitySpace.System.Controllers.Mock.RolesController.superclass.constructor.apply(this, arguments);
 };
 
-Ext.extend(UnitySpace.System.Controllers.Mock.RolesController, UnitySpace.System.Controllers.BaseController, {
+Ext.extend(UnitySpace.System.Controllers.Mock.RolesController, UnitySpace.System.Controllers.Mock.BaseMockController, {
 
     /**
      * Get all roles. Requesr url GET /roles.
@@ -24,7 +23,7 @@ Ext.extend(UnitySpace.System.Controllers.Mock.RolesController, UnitySpace.System
      * @param {String} format (optional) format
      */
     get: function (successFn, failureFn, responseFn, format){
-        return null;
+        this.success(UnitySpace.System.Controllers.Mock.Roles, successFn, responseFn);
     },
 
     /**

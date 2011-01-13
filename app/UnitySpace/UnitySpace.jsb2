@@ -92,6 +92,10 @@
 					"path": "src/System/Controllers/Mock/"
 				},
 				{
+					"text": "BaseMockController.js",
+					"path": "src/System/Controllers/Mock/"
+				},
+				{
 					"text": "AccountController.js",
 					"path": "src/System/Controllers/Mock/"
 				},
@@ -101,6 +105,10 @@
 				},
 				{
 					"text": "RepositoryController.js",
+					"path": "src/System/Controllers/Mock/"
+				},
+				{
+					"text": "Roles.js",
 					"path": "src/System/Controllers/Mock/"
 				},
 				{
@@ -318,6 +326,10 @@
 					"path": "src/System/Controllers/Mock/"
 				},
 				{
+					"text": "BaseMockController.js",
+					"path": "src/System/Controllers/Mock/"
+				},
+				{
 					"text": "AccountController.js",
 					"path": "src/System/Controllers/Mock/"
 				},
@@ -327,6 +339,10 @@
 				},
 				{
 					"text": "RepositoryController.js",
+					"path": "src/System/Controllers/Mock/"
+				},
+				{
+					"text": "Roles.js",
 					"path": "src/System/Controllers/Mock/"
 				},
 				{

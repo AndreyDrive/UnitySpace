@@ -1,10 +1,9 @@
-// using System.Controllers.BaseController
-// using System.Controllers.Mock.Mock
+// using System.Controllers.Mock.BaseMockController
 
 /**
  * @class UnitySpace.System.Controllers.Mock.UsersController
  * @namespace UnitySpace.System.Controllers.Mock
- * @extends UnitySpace.System.Controllers.BaseController
+ * @extends UnitySpace.System.Controllers.Mock.BaseMockController
  * UsersController class
  * @author Max Kazarin
  * @constructor
@@ -14,7 +13,7 @@ UnitySpace.System.Controllers.Mock.UsersController = function() {
     UnitySpace.System.Controllers.Mock.UsersController.superclass.constructor.apply(this, arguments);
 };
 
-Ext.extend(UnitySpace.System.Controllers.Mock.UsersController, UnitySpace.System.Controllers.BaseController, {
+Ext.extend(UnitySpace.System.Controllers.Mock.UsersController, UnitySpace.System.Controllers.Mock.BaseMockController, {
 
     /**
      * Get user in project by id. Request url GET /user/(userId)/project/(projectId)/.

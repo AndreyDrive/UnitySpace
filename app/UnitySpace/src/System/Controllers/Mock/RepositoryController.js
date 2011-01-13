@@ -1,10 +1,9 @@
-// using System.Controllers.BaseController
-// using System.Controllers.Mock.Mock
+// using System.Controllers.Mock.BaseMockController
 
 /**
  * @class UnitySpace.System.Controllers.Mock.RepositoryController
  * @namespace UnitySpace.System.Controllers
- * @extends UnitySpace.System.Controllers.BaseController
+ * @extends UnitySpace.System.Controllers.Mock.BaseMockController
  * RolesController class
  * @author Max Kazarin
  * @constructor
@@ -14,5 +13,5 @@ UnitySpace.System.Controllers.Mock.RepositoryController = function() {
     UnitySpace.System.Controllers.Mock.RepositoryController.superclass.constructor.apply(this, arguments);
 };
 
-Ext.extend(UnitySpace.System.Controllers.Mock.RepositoryController, UnitySpace.System.Controllers.BaseController, {
+Ext.extend(UnitySpace.System.Controllers.Mock.RepositoryController, UnitySpace.System.Controllers.Mock.BaseMockController, {
 });

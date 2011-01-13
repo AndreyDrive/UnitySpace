@@ -661,19 +661,19 @@ Ext.extend(UnitySpace.System.Engine, Ext.util.Observable, {
      * Initialize engine
      */
     initialize: function() {
-        this.console = new UnitySpace.System.Console();
-        this.console.initialize();
-/*        this.addTask({
+        var console = new UnitySpace.System.Console();
+        console.initialize();
+        this.addTask({
             method: function(synchronizer) {
-                this.console.close();
+                console.close();
                 synchronizer();
             },
-            scope: this.console
-        });*/
+            scope: this
+        });
 
-        this.console.write('Initialize modules...\n');
+        console.write('Initialize modules...\n');
 
-        this.console.setTemplate('<div>Module {0}...<span style="float:right; color:{2}">[{1}]</span></div><div style="padding-left:20px; color:yellow;">{3}</div>');
+        console.setTemplate('<div>Module {0}...<span style="float:right; color:{2}">[{1}]</span></div><div style="padding-left:20px; color:yellow;">{3}</div>');
         var initialized = true;
         for (var moduleIndex = 0; moduleIndex < this.init.length; moduleIndex++) {
             var moduleName = this.init[moduleIndex];
@@ -681,15 +681,15 @@ Ext.extend(UnitySpace.System.Engine, Ext.util.Observable, {
                 log(String.format('Module {0} not initialize. Not registrate.', moduleName));
                 continue;
             }
-            initialized = this._initializeModule(moduleName);
+            initialized = this._initializeModule(console, moduleName);
         }
 
-        this.console.clearTemplate();
+        console.clearTemplate();
         if (!initialized)
             this.taskQueue.clear();
     },
 
-    _initializeModule:function (moduleName) {
+    _initializeModule:function (console, moduleName) {
         var moduleInfo = this.modules[moduleName];
         var errorMessage = null;
         var module = null;
@@ -708,7 +708,7 @@ Ext.extend(UnitySpace.System.Engine, Ext.util.Observable, {
             }
             errorMessage = 'Error: '+message;
         }
-        this.console.write(
+        console.write(
                 module.name,
                 result ? 'OK' : 'FAILED',
                 result ? 'green' : 'red',
@@ -1090,9 +1090,44 @@ UnitySpace.System.Controllers.Mocking = function() {
 // using System.Controllers.Mock.Mock
 
 /**
+ * @class UnitySpace.System.Controllers.Mock.RepositoryController
+ * @namespace UnitySpace.System.Controllers
+ * @extends UnitySpace.System.Controllers.BaseController
+ * RolesController class
+ * @author Max Kazarin
+ * @constructor
+ * Create new instance of UnitySpace.System.Controllers.Mock.RolesController class
+ */
+UnitySpace.System.Controllers.Mock.BaseMockController = function() {
+    UnitySpace.System.Controllers.Mock.BaseMockController.superclass.constructor.apply(this, arguments);
+};
+
+Ext.extend(UnitySpace.System.Controllers.Mock.BaseMockController, UnitySpace.System.Controllers.BaseController, {
+    success: function(data, successFn, responseFn) {
+        this._safeCall(successFn, [this._response(data), null]);
+        this._safeCall(responseFn, [null, true, this._response(data)]);
+    },
+
+    failure: function(message, failureFn, responseFn) {
+        var data = {alert: message};
+        this._safeCall(failureFn, [null, true, this._response(data)]);
+        this._safeCall(responseFn, [this._response(data), null]);
+    },
+
+    _safeCall: function(fn, args) {
+        if (fn != null)
+            fn.defer(1, this, args, false);
+    },
+
+    _response: function(data) {
+        return {responseData: data};
+    }
+});// using System.Controllers.Mock.BaseMockController
+
+/**
  * @class UnitySpace.System.Controllers.Mock.AccountController
  * @namespace UnitySpace.System.Controllers.Mock
- * @extends UnitySpace.System.Controllers.BaseController
+ * @extends UnitySpace.System.Controllers.Mock.BaseMockController
  * AccountController class
  * @author Max Kazarin
  * @constructor
@@ -1102,7 +1137,7 @@ UnitySpace.System.Controllers.Mock.AccountController = function() {
     UnitySpace.System.Controllers.Mock.AccountController.superclass.constructor.apply(this, arguments);
 };
 
-Ext.extend(UnitySpace.System.Controllers.Mock.AccountController, UnitySpace.System.Controllers.BaseController, {
+Ext.extend(UnitySpace.System.Controllers.Mock.AccountController, UnitySpace.System.Controllers.Mock.BaseMockController, {
 
     /**
      * Signin. Request url POST /signin.
@@ -1140,13 +1175,12 @@ Ext.extend(UnitySpace.System.Controllers.Mock.AccountController, UnitySpace.Syst
         return null;
     }
 });
-// using System.Controllers.BaseController
-// using System.Controllers.Mock.Mock
+// using System.Controllers.Mock.BaseMockController
 
 /**
  * @class UnitySpace.System.Controllers.Mock.ProjectsController
  * @namespace UnitySpace.System.Controllers.Mock
- * @extends UnitySpace.System.Controllers.BaseController
+ * @extends UnitySpace.System.Controllers.Mock.BaseMockController
  * ProjectsController class
  * @author Max Kazarin
  * @constructor
@@ -1156,7 +1190,7 @@ UnitySpace.System.Controllers.Mock.ProjectsController = function() {
     UnitySpace.System.Controllers.Mock.ProjectsController.superclass.constructor.apply(this, arguments);
 };
 
-Ext.extend(UnitySpace.System.Controllers.Mock.ProjectsController, UnitySpace.System.Controllers.BaseController, {
+Ext.extend(UnitySpace.System.Controllers.Mock.ProjectsController, UnitySpace.System.Controllers.Mock.BaseMockController, {
 
     /**
      * Get project by id. Request url GET /project/(projectId)
@@ -1255,13 +1289,12 @@ Ext.extend(UnitySpace.System.Controllers.Mock.ProjectsController, UnitySpace.Sys
         return null;
     }
 });
-// using System.Controllers.BaseController
-// using System.Controllers.Mock.Mock
+// using System.Controllers.Mock.BaseMockController
 
 /**
  * @class UnitySpace.System.Controllers.Mock.RepositoryController
  * @namespace UnitySpace.System.Controllers
- * @extends UnitySpace.System.Controllers.BaseController
+ * @extends UnitySpace.System.Controllers.Mock.BaseMockController
  * RolesController class
  * @author Max Kazarin
  * @constructor
@@ -1271,14 +1304,18 @@ UnitySpace.System.Controllers.Mock.RepositoryController = function() {
     UnitySpace.System.Controllers.Mock.RepositoryController.superclass.constructor.apply(this, arguments);
 };
 
-Ext.extend(UnitySpace.System.Controllers.Mock.RepositoryController, UnitySpace.System.Controllers.BaseController, {
-});// using System.Controllers.BaseController
-// using System.Controllers.Mock.Mock
+Ext.extend(UnitySpace.System.Controllers.Mock.RepositoryController, UnitySpace.System.Controllers.Mock.BaseMockController, {
+});// using System.Controllers.Mock.Namespace
+
+UnitySpace.System.Controllers.Mock.Roles = [
+        "Owner"
+        ,"Admin"
+        ,"User"];// using System.Controllers.Mock.BaseMockController
 
 /**
  * @class UnitySpace.System.Controllers.Mock.RolesController
  * @namespace UnitySpace.System.Mock.Controllers
- * @extends UnitySpace.System.Controllers.BaseController
+ * @extends UnitySpace.System.Controllers.Mock.BaseMockController
  * RolesController class
  * @author Max Kazarin
  * @constructor
@@ -1288,7 +1325,7 @@ UnitySpace.System.Controllers.Mock.RolesController = function() {
     UnitySpace.System.Controllers.Mock.RolesController.superclass.constructor.apply(this, arguments);
 };
 
-Ext.extend(UnitySpace.System.Controllers.Mock.RolesController, UnitySpace.System.Controllers.BaseController, {
+Ext.extend(UnitySpace.System.Controllers.Mock.RolesController, UnitySpace.System.Controllers.Mock.BaseMockController, {
 
     /**
      * Get all roles. Requesr url GET /roles.
@@ -1298,7 +1335,7 @@ Ext.extend(UnitySpace.System.Controllers.Mock.RolesController, UnitySpace.System
      * @param {String} format (optional) format
      */
     get: function (successFn, failureFn, responseFn, format){
-        return null;
+        this.success(UnitySpace.System.Controllers.Mock.Roles, successFn, responseFn);
     },
 
     /**
@@ -1328,13 +1365,12 @@ Ext.extend(UnitySpace.System.Controllers.Mock.RolesController, UnitySpace.System
         return null;
     }
 });
-// using System.Controllers.BaseController
-// using System.Controllers.Mock.Mock
+// using System.Controllers.Mock.BaseMockController
 
 /**
  * @class UnitySpace.System.Controllers.Mock.UsersController
  * @namespace UnitySpace.System.Controllers.Mock
- * @extends UnitySpace.System.Controllers.BaseController
+ * @extends UnitySpace.System.Controllers.Mock.BaseMockController
  * UsersController class
  * @author Max Kazarin
  * @constructor
@@ -1344,7 +1380,7 @@ UnitySpace.System.Controllers.Mock.UsersController = function() {
     UnitySpace.System.Controllers.Mock.UsersController.superclass.constructor.apply(this, arguments);
 };
 
-Ext.extend(UnitySpace.System.Controllers.Mock.UsersController, UnitySpace.System.Controllers.BaseController, {
+Ext.extend(UnitySpace.System.Controllers.Mock.UsersController, UnitySpace.System.Controllers.Mock.BaseMockController, {
 
     /**
      * Get user in project by id. Request url GET /user/(userId)/project/(projectId)/.
@@ -1833,13 +1869,13 @@ UnitySpace.System.EManifestType = {
      */
     ClassLibrary: 11
 };Engine.init = [
-    "Debug",
-    "ExtJS",
-    "Keyboard",
-    "GINA",
-    "Repository",
-    "ProjectProfile",
-    "CommandShell"
+    "Debug"
+    ,"ExtJS"
+    ,"Keyboard"
+    ,"GINA"
+    ,"Repository"
+    ,"ProjectProfile"
+    //,"CommandShell"
 ];
 // using System.Namespace
 
@@ -2080,7 +2116,7 @@ UnitySpace.System.Modules.CommandShellModule = Ext.extend(UnitySpace.System.Modu
 */
 });
 
-//Engine.registrate(UnitySpace.System.Modules.CommandShellModule);// using System.Modules.BaseModule
+Engine.registrate(UnitySpace.System.Modules.CommandShellModule);// using System.Modules.BaseModule
 
 /**
  * @class UnitySpace.System.Modules.DebugModule
@@ -2500,15 +2536,15 @@ UnitySpace.System.Modules.GINAModule = Ext.extend(UnitySpace.System.Modules.Base
         this.accountController = Engine.api.get("UnitySpace.Account");
 
         Engine.addTask({
-            method: this.initializeRoles,
-            scope: this,
-            isLast: true
+            method: this.initializeRoles
+            ,scope: this
+            //,isLast: true
         });
 
         Engine.addTask({
-            method: this.authenticate,
-            scope: this,
-            isLast: true
+            method: this.authenticate
+            ,scope: this
+            //,isLast: true
         });
     },
 

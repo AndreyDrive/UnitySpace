@@ -1,10 +1,9 @@
-// using System.Controllers.BaseController
-// using System.Controllers.Mock.Mock
+// using System.Controllers.Mock.BaseMockController
 
 /**
  * @class UnitySpace.System.Controllers.Mock.AccountController
  * @namespace UnitySpace.System.Controllers.Mock
- * @extends UnitySpace.System.Controllers.BaseController
+ * @extends UnitySpace.System.Controllers.Mock.BaseMockController
  * AccountController class
  * @author Max Kazarin
  * @constructor
@@ -14,7 +13,7 @@ UnitySpace.System.Controllers.Mock.AccountController = function() {
     UnitySpace.System.Controllers.Mock.AccountController.superclass.constructor.apply(this, arguments);
 };
 
-Ext.extend(UnitySpace.System.Controllers.Mock.AccountController, UnitySpace.System.Controllers.BaseController, {
+Ext.extend(UnitySpace.System.Controllers.Mock.AccountController, UnitySpace.System.Controllers.Mock.BaseMockController, {
 
     /**
      * Signin. Request url POST /signin.

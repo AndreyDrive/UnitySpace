@@ -27,15 +27,15 @@ UnitySpace.System.Modules.GINAModule = Ext.extend(UnitySpace.System.Modules.Base
         this.accountController = Engine.api.get("UnitySpace.Account");
 
         Engine.addTask({
-            method: this.initializeRoles,
-            scope: this,
-            isLast: true
+            method: this.initializeRoles
+            ,scope: this
+            //,isLast: true
         });
 
         Engine.addTask({
-            method: this.authenticate,
-            scope: this,
-            isLast: true
+            method: this.authenticate
+            ,scope: this
+            //,isLast: true
         });
     },
 

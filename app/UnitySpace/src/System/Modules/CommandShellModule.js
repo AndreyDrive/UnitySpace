@@ -127,4 +127,4 @@ UnitySpace.System.Modules.CommandShellModule = Ext.extend(UnitySpace.System.Modu
 */
 });
 
-//Engine.registrate(UnitySpace.System.Modules.CommandShellModule);
+Engine.registrate(UnitySpace.System.Modules.CommandShellModule);
