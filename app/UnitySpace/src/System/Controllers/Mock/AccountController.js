@@ -48,6 +48,6 @@ Ext.extend(UnitySpace.System.Controllers.Mock.AccountController, UnitySpace.Syst
      * @param {String} format (optional) format
      */
     get: function(successFn, failureFn, responseFn, format) {
-        return null;
+        this.failure(null, 401, failureFn, responseFn);
     }
 });

@@ -83,6 +83,7 @@ UnitySpace.System.Modules.GINAModule = Ext.extend(UnitySpace.System.Modules.Base
 
     // private
     onGetCurrentUserSuccess: function(response) {
+        debug();
         this.setCurrentUser(response.responseData);
         this.publish( 'logon');
     },
@@ -100,8 +101,11 @@ UnitySpace.System.Modules.GINAModule = Ext.extend(UnitySpace.System.Modules.Base
             complite: this.completeLogon.createDelegate(this)            
         });
 */
-        this.publish('beforelogon', this.validateUser.createDelegate(this));
+        var providerName = Engine.config.get('Authenticate.type', 'FormAuthenticate');
+        var provider = Engine.authenticateProviders.get(providerName);
 
+        this.publish('beforelogon', provider);
+        this.validateUser(provider);
 /*
         this.logonWindow = new WebDesktop.controls.LogonWindow({
             listeners: {
@@ -115,14 +119,9 @@ UnitySpace.System.Modules.GINAModule = Ext.extend(UnitySpace.System.Modules.Base
     },
 
     // private
-    validateUser: function(name, password, rememberMe) {
-        var providerName = Engine.config.get('Authenticate.type', 'FormAuthenticate');
-        var provider = Engine.authenticateProviders.get(providerName);
+    validateUser: function(provider) {
 
         provider.authenticate(
-            name,
-            password,
-            rememberMe,
             this.onValidateUserSuccess.createDelegate(this),
             this.onValidateUserFailure.createDelegate(this));
 /*

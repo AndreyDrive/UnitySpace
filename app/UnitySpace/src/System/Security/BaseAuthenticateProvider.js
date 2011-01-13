@@ -14,7 +14,7 @@ UnitySpace.System.Security.BaseAuthenticateProvider = function() {
 };
 
 Ext.extend(UnitySpace.System.Security.BaseAuthenticateProvider, Object, {
-    authenticate: function(name, password, rememberMe, successFn, failureFn) {
+    authenticate: function(successFn, failureFn) {
 
     }
 });

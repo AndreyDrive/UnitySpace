@@ -36,6 +36,12 @@ UnitySpace.System.Modules.ProjectProfileModule = Ext.extend(UnitySpace.System.Mo
         UnitySpace.System.Modules.ProjectProfileModule.superclass.initialize.apply(this, arguments);
 
         this.projectsController = Engine.api.get('UnitySpace.Projects');
+
+        Engine.addTask({
+            method: this.switchToDefaultProject
+            ,scope: this
+        });
+
     },
 
     getCurrentProject: function() {

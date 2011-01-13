@@ -12,15 +12,19 @@
  */
 UnitySpace.System.Security.FormAuthenticateProvider = function() {
     UnitySpace.System.Security.FormAuthenticateProvider.superclass.constructor.apply(this, arguments);
+
+    this.name = Engine.config.get('Authenticate.name');
+    this.password = Engine.config.get('Authenticate.password');
+    this.rememberMe = Engine.config.get('Authenticate.rememberMe');
 };
 
 Ext.extend(UnitySpace.System.Security.FormAuthenticateProvider, UnitySpace.System.Security.BaseAuthenticateProvider, {
-    authenticate: function(name, password, rememberMe, successFn, failureFn) {
+    authenticate: function(successFn, failureFn) {
         var accountController = Engine.api.get("UnitySpace.Account");
         accountController.signin(
-            name,
-            password,
-            rememberMe,
+            this.name,
+            this.password,
+            this.rememberMe,
             successFn,
             failureFn);
     }

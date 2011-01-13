@@ -23,7 +23,7 @@ Ext.extend(UnitySpace.System.Controllers.Mock.RolesController, UnitySpace.System
      * @param {String} format (optional) format
      */
     get: function (successFn, failureFn, responseFn, format){
-        this.success(UnitySpace.System.Controllers.Mock.Roles, successFn, responseFn);
+        this.success(UnitySpace.System.Controllers.Mock.Roles, 200, successFn, responseFn);
     },
 
     /**

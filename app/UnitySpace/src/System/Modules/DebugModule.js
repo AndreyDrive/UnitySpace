@@ -61,8 +61,11 @@ UnitySpace.System.Modules.DebugModule = Ext.extend(UnitySpace.System.Modules.Bas
         var message = event;
         if (Ext.isFunction(event))
             message = 'function';
+        else if (Ext.isObject(event))
+            message = 'object';
         else if (!Ext.isDefined(event))
             message = '';
+
         log(String.format('channel: [{0}] {1}', channel, message));
     }
 });

@@ -15,15 +15,20 @@ UnitySpace.System.Controllers.Mock.BaseMockController = function() {
 };
 
 Ext.extend(UnitySpace.System.Controllers.Mock.BaseMockController, UnitySpace.System.Controllers.BaseController, {
-    success: function(data, successFn, responseFn) {
-        this._safeCall(successFn, [this._response(data), null]);
-        this._safeCall(responseFn, [null, true, this._response(data)]);
+    success: function(data, statusCode, successFn, responseFn) {
+        var response = this._response(data, statusCode);
+        this._safeCall(successFn, [response, null]);
+        this._safeCall(responseFn, [null, true, response]);
     },
 
-    failure: function(message, failureFn, responseFn) {
-        var data = {alert: message};
-        this._safeCall(failureFn, [null, true, this._response(data)]);
-        this._safeCall(responseFn, [this._response(data), null]);
+    failure: function(message, statusCode, failureFn, responseFn) {
+        var data = null;
+        if (message)
+            data = {alert: message};
+
+        var response = this._response(data, statusCode);
+        this._safeCall(failureFn, [response, null]);
+        this._safeCall(responseFn, [null, true, response]);
     },
 
     _safeCall: function(fn, args) {
@@ -31,7 +36,14 @@ Ext.extend(UnitySpace.System.Controllers.Mock.BaseMockController, UnitySpace.Sys
             fn.defer(1, this, args, false);
     },
 
-    _response: function(data) {
-        return {responseData: data};
+    _response: function(data, statusCode) {
+        var result = {
+            responseData: data,
+            status: 200
+        };
+        if (statusCode)
+            result.status = statusCode;
+        
+        return result;
     }
 });

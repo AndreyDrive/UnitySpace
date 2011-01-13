@@ -1103,15 +1103,20 @@ UnitySpace.System.Controllers.Mock.BaseMockController = function() {
 };
 
 Ext.extend(UnitySpace.System.Controllers.Mock.BaseMockController, UnitySpace.System.Controllers.BaseController, {
-    success: function(data, successFn, responseFn) {
-        this._safeCall(successFn, [this._response(data), null]);
-        this._safeCall(responseFn, [null, true, this._response(data)]);
+    success: function(data, statusCode, successFn, responseFn) {
+        var response = this._response(data, statusCode);
+        this._safeCall(successFn, [response, null]);
+        this._safeCall(responseFn, [null, true, response]);
     },
 
-    failure: function(message, failureFn, responseFn) {
-        var data = {alert: message};
-        this._safeCall(failureFn, [null, true, this._response(data)]);
-        this._safeCall(responseFn, [this._response(data), null]);
+    failure: function(message, statusCode, failureFn, responseFn) {
+        var data = null;
+        if (message)
+            data = {alert: message};
+
+        var response = this._response(data, statusCode);
+        this._safeCall(failureFn, [response, null]);
+        this._safeCall(responseFn, [null, true, response]);
     },
 
     _safeCall: function(fn, args) {
@@ -1119,8 +1124,15 @@ Ext.extend(UnitySpace.System.Controllers.Mock.BaseMockController, UnitySpace.Sys
             fn.defer(1, this, args, false);
     },
 
-    _response: function(data) {
-        return {responseData: data};
+    _response: function(data, statusCode) {
+        var result = {
+            responseData: data,
+            status: 200
+        };
+        if (statusCode)
+            result.status = statusCode;
+        
+        return result;
     }
 });// using System.Controllers.Mock.BaseMockController
 
@@ -1172,7 +1184,7 @@ Ext.extend(UnitySpace.System.Controllers.Mock.AccountController, UnitySpace.Syst
      * @param {String} format (optional) format
      */
     get: function(successFn, failureFn, responseFn, format) {
-        return null;
+        this.failure(null, 401, failureFn, responseFn);
     }
 });
 // using System.Controllers.Mock.BaseMockController
@@ -1335,7 +1347,7 @@ Ext.extend(UnitySpace.System.Controllers.Mock.RolesController, UnitySpace.System
      * @param {String} format (optional) format
      */
     get: function (successFn, failureFn, responseFn, format){
-        this.success(UnitySpace.System.Controllers.Mock.Roles, successFn, responseFn);
+        this.success(UnitySpace.System.Controllers.Mock.Roles, 200, successFn, responseFn);
     },
 
     /**
@@ -2179,8 +2191,11 @@ UnitySpace.System.Modules.DebugModule = Ext.extend(UnitySpace.System.Modules.Bas
         var message = event;
         if (Ext.isFunction(event))
             message = 'function';
+        else if (Ext.isObject(event))
+            message = 'object';
         else if (!Ext.isDefined(event))
             message = '';
+
         log(String.format('channel: [{0}] {1}', channel, message));
     }
 });
@@ -2592,6 +2607,7 @@ UnitySpace.System.Modules.GINAModule = Ext.extend(UnitySpace.System.Modules.Base
 
     // private
     onGetCurrentUserSuccess: function(response) {
+        debug();
         this.setCurrentUser(response.responseData);
         this.publish( 'logon');
     },
@@ -2609,8 +2625,11 @@ UnitySpace.System.Modules.GINAModule = Ext.extend(UnitySpace.System.Modules.Base
             complite: this.completeLogon.createDelegate(this)            
         });
 */
-        this.publish('beforelogon', this.validateUser.createDelegate(this));
+        var providerName = Engine.config.get('Authenticate.type', 'FormAuthenticate');
+        var provider = Engine.authenticateProviders.get(providerName);
 
+        this.publish('beforelogon', provider);
+        this.validateUser(provider);
 /*
         this.logonWindow = new WebDesktop.controls.LogonWindow({
             listeners: {
@@ -2624,14 +2643,9 @@ UnitySpace.System.Modules.GINAModule = Ext.extend(UnitySpace.System.Modules.Base
     },
 
     // private
-    validateUser: function(name, password, rememberMe) {
-        var providerName = Engine.config.get('Authenticate.type', 'FormAuthenticate');
-        var provider = Engine.authenticateProviders.get(providerName);
+    validateUser: function(provider) {
 
         provider.authenticate(
-            name,
-            password,
-            rememberMe,
             this.onValidateUserSuccess.createDelegate(this),
             this.onValidateUserFailure.createDelegate(this));
 /*
@@ -2846,6 +2860,12 @@ UnitySpace.System.Modules.ProjectProfileModule = Ext.extend(UnitySpace.System.Mo
         UnitySpace.System.Modules.ProjectProfileModule.superclass.initialize.apply(this, arguments);
 
         this.projectsController = Engine.api.get('UnitySpace.Projects');
+
+        Engine.addTask({
+            method: this.switchToDefaultProject
+            ,scope: this
+        });
+
     },
 
     getCurrentProject: function() {
@@ -3345,7 +3365,7 @@ UnitySpace.System.Security.BaseAuthenticateProvider = function() {
 };
 
 Ext.extend(UnitySpace.System.Security.BaseAuthenticateProvider, Object, {
-    authenticate: function(name, password, rememberMe, successFn, failureFn) {
+    authenticate: function(successFn, failureFn) {
 
     }
 });// using System.Security.Namespace
@@ -3362,15 +3382,19 @@ Ext.extend(UnitySpace.System.Security.BaseAuthenticateProvider, Object, {
  */
 UnitySpace.System.Security.FormAuthenticateProvider = function() {
     UnitySpace.System.Security.FormAuthenticateProvider.superclass.constructor.apply(this, arguments);
+
+    this.name = Engine.config.get('Authenticate.name');
+    this.password = Engine.config.get('Authenticate.password');
+    this.rememberMe = Engine.config.get('Authenticate.rememberMe');
 };
 
 Ext.extend(UnitySpace.System.Security.FormAuthenticateProvider, UnitySpace.System.Security.BaseAuthenticateProvider, {
-    authenticate: function(name, password, rememberMe, successFn, failureFn) {
+    authenticate: function(successFn, failureFn) {
         var accountController = Engine.api.get("UnitySpace.Account");
         accountController.signin(
-            name,
-            password,
-            rememberMe,
+            this.name,
+            this.password,
+            this.rememberMe,
             successFn,
             failureFn);
     }
