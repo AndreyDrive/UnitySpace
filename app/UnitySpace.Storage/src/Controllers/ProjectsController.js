@@ -1,19 +1,19 @@
-// using System.Controllers.Mock.BaseMockController
+// using Controllers.BaseStorageController
 
 /**
- * @class UnitySpace.System.Controllers.Mock.ProjectsController
- * @namespace UnitySpace.System.Controllers.Mock
- * @extends UnitySpace.System.Controllers.Mock.BaseMockController
+ * @class UnitySpace.Storage.Controllers.ProjectsController
+ * @namespace UnitySpace.Storage.Controllers
+ * @extends UnitySpace.Storage.Controllers.BaseMockController
  * ProjectsController class
  * @author Max Kazarin
  * @constructor
- * Create new instance of UnitySpace.System.Controllers.Mock.ProjectsController class
+ * Create new instance of UnitySpace.Storage.Controllers.ProjectsController class
  */
-UnitySpace.System.Controllers.Mock.ProjectsController = function() {
-    UnitySpace.System.Controllers.Mock.ProjectsController.superclass.constructor.apply(this, arguments);
+UnitySpace.Storage.Controllers.ProjectsController = function() {
+    UnitySpace.Storage.Controllers.ProjectsController.superclass.constructor.apply(this, arguments);
 };
 
-Ext.extend(UnitySpace.System.Controllers.Mock.ProjectsController, UnitySpace.System.Controllers.Mock.BaseMockController, {
+Ext.extend(UnitySpace.Storage.Controllers.ProjectsController, UnitySpace.Storage.Controllers.BaseMockController, {
 
     /**
      * Get project by id. Request url GET /project/(projectId)
@@ -112,3 +112,5 @@ Ext.extend(UnitySpace.System.Controllers.Mock.ProjectsController, UnitySpace.Sys
         return null;
     }
 });
+
+Engine.api.registrate("UnitySpace.Projects", UnitySpace.Storage.Controllers.ProjectsController, true);

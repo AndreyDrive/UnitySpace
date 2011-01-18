@@ -26,43 +26,41 @@ UnitySpace.System.Modules.GINAModule = Ext.extend(UnitySpace.System.Modules.Base
 
         this.accountController = Engine.api.get("UnitySpace.Account");
 
-        Engine.addTask({
-            method: this.initializeRoles
-            ,scope: this
-            //,isLast: true
-        });
-
+        this.rolesInitialize();
+        this.authenticate();
+/*
         Engine.addTask({
             method: this.authenticate
             ,scope: this
             //,isLast: true
         });
+*/
+
+        //this.initialized();
     },
 
     // private
-    authenticate: function(synchronizer) {
-        synchronizer();
-        this.logon();
-    },
-
-    // private
-    initializeRoles: function(synchronizer) {
+    rolesInitialize: function(synchronizer) {
         var rolesController = Engine.api.get("UnitySpace.Roles");
         rolesController.get(
             this.onInitializeRolesSuccess.createDelegate(this, [synchronizer], true),
-            this.onInitializeRolesFailure.createDelegate(this)
+            this.onInitializeRolesFailure.createDelegate(this, [synchronizer], false)
         );
     },
 
     // private
-    onInitializeRolesSuccess: function(response, option, synchronizer) {
+    onInitializeRolesSuccess: function(response) {
         this.roles = response.responseData;
-        synchronizer();
     },
 
     // private
     onInitializeRolesFailure: function(response) {
         Engine.error(new UnitySpace.System.Net.ConnectionException(response.responseData));
+    },
+
+    // private
+    authenticate: function() {
+        this.logon();
     },
 
     /**
@@ -137,12 +135,13 @@ UnitySpace.System.Modules.GINAModule = Ext.extend(UnitySpace.System.Modules.Base
     // private
     onValidateUserSuccess: function(response) {
         this.setCurrentUser(response.responseData);
+        this.publishInitialized();
         this.publish('logon');
     },
 
     onValidateUserFailure: function(response) {
         var message = UnitySpace.System.Net.ActionResponse.parse(response);
-        this.publish('error', message);
+        this.publishError(new UnitySpace.System.Net.ModuleException(message));
     },
     /**
      * Logoff

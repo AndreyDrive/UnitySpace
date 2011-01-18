@@ -42,6 +42,8 @@ UnitySpace.System.Modules.ProjectProfileModule = Ext.extend(UnitySpace.System.Mo
             ,scope: this
         });
 
+        this.publishInitialized();
+
     },
 
     getCurrentProject: function() {
@@ -52,7 +54,7 @@ UnitySpace.System.Modules.ProjectProfileModule = Ext.extend(UnitySpace.System.Mo
         if (this.currentProject)
             return this.currentProject.id;
 
-        return UnitySpace.Resources.System.Modules.NullProjectName;
+        return Resources.get("System.Modules.NullProjectName");
     },
 
 /*
@@ -148,7 +150,7 @@ UnitySpace.System.Modules.ProjectProfileModule = Ext.extend(UnitySpace.System.Mo
         else if ( Ext.isArray(projects) && projects.length == 1 )
             this._loadDefaultProject(projects[0]);
         else
-            this._showSwitchProjectWindow(projects);
+            this._chooseProject(projects);
     },
 
     _loadAdminProject: function() {
@@ -170,7 +172,7 @@ UnitySpace.System.Modules.ProjectProfileModule = Ext.extend(UnitySpace.System.Mo
         this._switchProject(project);
     },
 
-    _showSwitchProjectWindow: function(projects) {
+    _chooseProject: function(projects) {
         /*var projectSwitchWindow = new WebDesktop.controls.ProjectSwitchWindow({
             projects: projects,
             listeners: {
@@ -179,10 +181,10 @@ UnitySpace.System.Modules.ProjectProfileModule = Ext.extend(UnitySpace.System.Mo
             }
         });
         projectSwitchWindow.show();*/
-        this.publish('beforeswitch', this._switchProject.createDelegate(this));
+        this.publish('beforeswitch');
     },
 
-    _switchProject: function(project) {
+   switchProject: function(project) {
         this.currentProject = new UnitySpace.System.Modules.Project(project);
         this.publish('switch');
 

@@ -1,19 +1,19 @@
-// using System.Controllers.Mock.BaseMockController
+// using Controllers.BaseStorageController
 
 /**
- * @class UnitySpace.System.Controllers.Mock.RolesController
+ * @class UnitySpace.Storage.Controllers.RolesController
  * @namespace UnitySpace.System.Mock.Controllers
- * @extends UnitySpace.System.Controllers.Mock.BaseMockController
+ * @extends UnitySpace.Storage.Controllers.BaseMockController
  * RolesController class
  * @author Max Kazarin
  * @constructor
- * Create new instance of UnitySpace.System.Controllers.Mock.RolesController class
+ * Create new instance of UnitySpace.Storage.Controllers.RolesController class
  */
-UnitySpace.System.Controllers.Mock.RolesController = function() {
-    UnitySpace.System.Controllers.Mock.RolesController.superclass.constructor.apply(this, arguments);
+UnitySpace.Storage.Controllers.RolesController = function() {
+    UnitySpace.Storage.Controllers.RolesController.superclass.constructor.apply(this, arguments);
 };
 
-Ext.extend(UnitySpace.System.Controllers.Mock.RolesController, UnitySpace.System.Controllers.Mock.BaseMockController, {
+Ext.extend(UnitySpace.Storage.Controllers.RolesController, UnitySpace.Storage.Controllers.BaseMockController, {
 
     /**
      * Get all roles. Requesr url GET /roles.
@@ -23,7 +23,7 @@ Ext.extend(UnitySpace.System.Controllers.Mock.RolesController, UnitySpace.System
      * @param {String} format (optional) format
      */
     get: function (successFn, failureFn, responseFn, format){
-        this.success(UnitySpace.System.Controllers.Mock.Roles, 200, successFn, responseFn);
+        this.success(UnitySpace.Storage.Controllers.Roles, 200, successFn, responseFn);
     },
 
     /**
@@ -53,3 +53,5 @@ Ext.extend(UnitySpace.System.Controllers.Mock.RolesController, UnitySpace.System
         return null;
     }
 });
+
+Engine.api.registrate("UnitySpace.Roles", UnitySpace.Storage.Controllers.RolesController, true);

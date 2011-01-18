@@ -150,10 +150,13 @@ Ext.extend(UnitySpace.TaskQueue, Ext.util.Observable, {
 
     // protected
     runTask: function(task) {
-        var param = [function(withError) {
+        var param = [function(withError, cancel) {
             if (withError)
                 this.hasError = true;
-            this.runEntry.defer(1, this);
+            if (!cancel)
+                this.runEntry.defer(1, this);
+            else
+                this.stop();
         }.createDelegate(this)];
 
         if (task.params)

@@ -1,12 +1,12 @@
 // using Namespace
+// using ResourceManager
 
-UnitySpace.Resources = {
+UnitySpace.Resource({
     System: {
         Modules: {
-            BaseModule: {
-                UnknownModuleName: 'Неизвестное имя модуля.',
-                RequiedModule: 'Требуется модуль {0}.'
-            },
+            UnknownModuleName: 'Неизвестное имя модуля.',
+            RequiedModule: 'Требуется модуль {0}.',
+
             CommandShellModule: {
                 EmptyModuleMethod: 'Пустой метод модуля {0}.'
             },
@@ -19,9 +19,6 @@ UnitySpace.Resources = {
             ProjectProfileModule: {
                 NullProjectName: '',
                 ProfileNotLoaded: 'Профиль проекта не загружен.'
-            },
-            DebugModule: {
-                Log4JavaScriptNotFound: 'Отсутсвует библиотека log4javascript.'
             }
         },
         Net: {
@@ -43,7 +40,7 @@ UnitySpace.Resources = {
     ArgumentNullException: {
         Message: 'Значение аргумент {0} null.'
     }
-};
+});
 
 /*    Messages: {
         Error: 'Ошибка',

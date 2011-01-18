@@ -26,15 +26,13 @@ UnitySpace.System.Modules.DebugModule = Ext.extend(UnitySpace.System.Modules.Bas
             return;
 
         //DEBUG = true;
-
-        if (!Ext.isDefined(log4javascript))
-            throw new UnitySpace.System.Modules.ModuleException(UnitySpace.Resources.System.Modules.DebugModule.Log4JavaScriptNotFound);
-
+/*
         var doMock = Engine.config.get('Debug.mock', false);
         if (doMock) {
             log('Mock enable');
             UnitySpace.System.Controllers.Mocking();
         }
+*/
         //log = log4javascript.getLogger();
 		// Create a PopUpAppender with default options
 		//var popUpAppender = new log4javascript.InPageAppender();
@@ -49,6 +47,8 @@ UnitySpace.System.Modules.DebugModule = Ext.extend(UnitySpace.System.Modules.Bas
 		//log.addAppender(popUpAppender);
 
         this.subscribe( '*', this._logChannels);
+
+        this.publishInitialized();
     },
 
     /**
@@ -59,7 +59,10 @@ UnitySpace.System.Modules.DebugModule = Ext.extend(UnitySpace.System.Modules.Bas
      */
     _logChannels: function(event, channel) {
         var message = event;
-        if (Ext.isFunction(event))
+
+        if (event instanceof UnitySpace.Exception)
+            message = event.toString();
+        else if (Ext.isFunction(event))
             message = 'function';
         else if (Ext.isObject(event))
             message = 'object';

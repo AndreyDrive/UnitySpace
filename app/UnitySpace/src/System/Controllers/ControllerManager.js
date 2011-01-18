@@ -24,7 +24,7 @@ Ext.extend(UnitySpace.System.Controllers.ControllerManager, Object, {
         var controller = this.controllers[name];
         if (!Ext.isDefined(controller))
             throw new UnitySpace.System.Controllers.ControllerException(
-                    UnitySpace.Resources.System.Controllers.ControllerNotRegistrate,
+                    Resources.get("System.Controllers.ControllerNotRegistrate"),
                     name);
 
         if (!controller.instance) {
@@ -49,7 +49,7 @@ Ext.extend(UnitySpace.System.Controllers.ControllerManager, Object, {
 
         if (!override && Ext.isDefined(this.controllers[name]))
             throw new UnitySpace.System.Controllers.ControllerException(
-                    UnitySpace.Resources.System.Controllers.ControllerAlreadyRegistrate,
+                    Resources.get("System.Controllers.ControllerAlreadyRegistrate"),
                     name);
         
         this.controllers[name] = {

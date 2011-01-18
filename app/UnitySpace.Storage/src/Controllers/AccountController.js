@@ -1,19 +1,19 @@
-// using System.Controllers.Mock.BaseMockController
+// using Controllers.BaseStorageController
 
 /**
- * @class UnitySpace.System.Controllers.Mock.AccountController
- * @namespace UnitySpace.System.Controllers.Mock
- * @extends UnitySpace.System.Controllers.Mock.BaseMockController
+ * @class UnitySpace.Storage.Controllers.AccountController
+ * @namespace UnitySpace.Storage.Controllers
+ * @extends UnitySpace.Storage.Controllers.BaseMockController
  * AccountController class
  * @author Max Kazarin
  * @constructor
- * Create new instance of UnitySpace.System.Controllers.Mock.AccountController class
+ * Create new instance of UnitySpace.Storage.Controllers.AccountController class
  */
-UnitySpace.System.Controllers.Mock.AccountController = function() {
-    UnitySpace.System.Controllers.Mock.AccountController.superclass.constructor.apply(this, arguments);
+UnitySpace.Storage.Controllers.AccountController = function() {
+    UnitySpace.Storage.Controllers.AccountController.superclass.constructor.apply(this, arguments);
 };
 
-Ext.extend(UnitySpace.System.Controllers.Mock.AccountController, UnitySpace.System.Controllers.Mock.BaseMockController, {
+Ext.extend(UnitySpace.Storage.Controllers.AccountController, UnitySpace.Storage.Controllers.BaseMockController, {
 
     /**
      * Signin. Request url POST /signin.
@@ -26,7 +26,7 @@ Ext.extend(UnitySpace.System.Controllers.Mock.AccountController, UnitySpace.Syst
      * @param {String} format (optional) format
      */
     signin: function(userName, password, remember, successFn, failureFn, responseFn, format) {
-        return null;
+        this.success(UnitySpace.Storage.Controllers.Roles, 200, successFn, responseFn);
     },
 
     /**
@@ -51,3 +51,5 @@ Ext.extend(UnitySpace.System.Controllers.Mock.AccountController, UnitySpace.Syst
         this.failure(null, 401, failureFn, responseFn);
     }
 });
+
+Engine.api.registrate("UnitySpace.Account", UnitySpace.Storage.Controllers.AccountController, true);

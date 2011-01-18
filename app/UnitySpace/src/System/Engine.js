@@ -1,5 +1,6 @@
 // using System.Namespace
 // using TaskQueue
+// using System.InitializeManager
 
 /**
  * @class UnitySpace.System.Engine
@@ -12,8 +13,10 @@
  */
 
 UnitySpace.System.Engine = function() {
+    this.Module = {};
     this.modules = {};
     this.config = null;
+    this.init = new UnitySpace.System.InitializeManager();
     this.taskQueue = new UnitySpace.TaskQueue();
 };
 
@@ -27,33 +30,38 @@ Ext.extend(UnitySpace.System.Engine, Ext.util.Observable, {
     initialize: function() {
         var console = new UnitySpace.System.Console();
         console.initialize();
-        this.addTask({
-            method: function(synchronizer) {
-                console.close();
-                synchronizer();
-            },
-            scope: this
-        });
 
         console.write('Initialize modules...\n');
-
         console.setTemplate('<div>Module {0}...<span style="float:right; color:{2}">[{1}]</span></div><div style="padding-left:20px; color:yellow;">{3}</div>');
-        var initialized = true;
-        for (var moduleIndex = 0; moduleIndex < this.init.length; moduleIndex++) {
-            var moduleName = this.init[moduleIndex];
-            if (!this.modules.hasOwnProperty(moduleName)) {
-                log(String.format('Module {0} not initialize. Not registrate.', moduleName));
-                continue;
-            }
-            initialized = this._initializeModule(console, moduleName);
-        }
 
-        console.clearTemplate();
-        if (!initialized)
-            this.taskQueue.clear();
+        this.subscribe('/modules', this._moduleInitialized, this);
+        this.initializedModules = 0;
+        this._moduleInitialize();
     },
 
-    _initializeModule:function (console, moduleName) {
+    _moduleInitialized: function(event, channel) {
+        var eventName = channel
+                .split('/')
+                .pop();
+        if (eventName == 'initialized' || eventName == 'error') {
+            this.initializedModules++;
+            if (this.initializedModules == this.init.getCount()) {
+                this.unsubscribe('/modules', this._moduleInitialized);
+            // initialize complete
+            // run
+                return;
+            }
+            
+            this._moduleInitialize();
+        }
+    },
+
+    _moduleInitialize:function () {
+        var moduleName = this.init.getModule(this.initializedModules);
+        if (!this.modules.hasOwnProperty(moduleName)) {
+            log(String.format('Module {0} not initialize. Not registrate.', moduleName));
+        }
+        
         var moduleInfo = this.modules[moduleName];
         var errorMessage = null;
         var module = null;
@@ -63,6 +71,7 @@ Ext.extend(UnitySpace.System.Engine, Ext.util.Observable, {
             module.validate();
             module.initialize();
             moduleInfo.instance = module;
+            this.Module[module.name] = module;
         }
         catch(exception) {
             result = false;
@@ -72,12 +81,12 @@ Ext.extend(UnitySpace.System.Engine, Ext.util.Observable, {
             }
             errorMessage = 'Error: '+message;
         }
-        console.write(
+/*        console.write(
                 module.name,
                 result ? 'OK' : 'FAILED',
                 result ? 'green' : 'red',
-                errorMessage);
-        return result;
+                errorMessage);*/
+        //return result;
     },
 
     /**
@@ -102,7 +111,7 @@ Ext.extend(UnitySpace.System.Engine, Ext.util.Observable, {
     registrate: function(className) {
         var name = className.prototype.name;
         if (!name)
-            throw WebDesktop.Resources.Messages.UnknowModuleName;
+            throw Resources.get("System.Modules.UnknownModuleName");
 
         this.modules[name] = {className: className};
     },
@@ -124,9 +133,9 @@ Ext.extend(UnitySpace.System.Engine, Ext.util.Observable, {
      */
     error: function(message) {
         if (message instanceof UnitySpace.Exception)
-            this.publish('error', message);
+            this.publish('/error', message);
         else
-            this.publish('error', new UnitySpace.SystemException(message));
+            this.publish('/error', new UnitySpace.SystemException(message));
     },
 
     configurate: function(config) {
@@ -154,6 +163,12 @@ Ext.extend(UnitySpace.System.Engine, Ext.util.Observable, {
 });
 
 var Engine = new UnitySpace.System.Engine();
+Engine.init.add(["Debug"
+    ,"ExtJS"
+    ,"Keyboard"
+    ,"GINA"
+    ,"Repository"
+    ,"ProjectProfile"]);
 
 Ext.onReady(function() {
     Engine.initialize();

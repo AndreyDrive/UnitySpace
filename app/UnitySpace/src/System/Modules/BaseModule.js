@@ -73,6 +73,13 @@ UnitySpace.System.Modules.BaseModule = Ext.extend(Ext.util.Observable, {
         log(String.format('Initialize module {0}.', this.name));
     },
 
+    publishInitialized: function() {
+        this.publish('initialized');
+    },
+
+    publishError: function(error) {
+        this.publish('error');
+    },
     /**
      * Dispose module resources
      */

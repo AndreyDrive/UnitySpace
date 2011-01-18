@@ -30,6 +30,8 @@ UnitySpace.System.Modules.RepositoryModule = Ext.extend(UnitySpace.System.Module
         UnitySpace.System.Modules.RepositoryModule.superclass.initialize.apply(this, arguments);
         this.manifestHash = {};
         this.reposirotyController = Engine.api.get('UnitySpace.Repository');
+
+        this.publishInitialized();
     },
 
     /**

@@ -9,18 +9,20 @@
 	<script type="text/javascript" src="lib/jasmine/jasmine.js"></script>
 	<script type="text/javascript" src="lib/jasmine/jasmine-html.js"></script>
 
-	<script type="text/javascript" src="lib/log4javascript/log4javascript.js"></script>
-
 	<script type="text/javascript" src="lib/ext-3.3.0/adapter/ext/ext-base-debug.js"></script>
-	<script type="text/javascript" src="lib/ext-3.3.0/ext-all-debug.js"></script>
-	<script type="text/javascript" src="lib/ext-3.3.0/ext-lang.ru-RU.js"></script>
+    <script type="text/javascript" src="lib/ext-3.3.0/ext-all-debug.js"></script>
 
+    <!--<script type="text/javascript" src="lib/persistence/persistence.js"></script>
+    <script type="text/javascript" src="lib/persistence/persistence.store.sql.js"></script>
+    <script type="text/javascript" src="lib/persistence/persistence.store.websql.js"></script>-->
     <script type="text/javascript" src="lib/debug.js"></script>
-	<script type="text/javascript" src="app/UnitySpace/deploy/unityspace.ru-RU-debug.js"></script>
+    <script type="text/javascript" src="app/UnitySpace.ExtJS/deploy/unityspace.extjs.en-US-debug.js"></script>
+    <script type="text/javascript" src="app/UnitySpace/deploy/unityspace.en-US-debug.js"></script>
+    <script type="text/javascript" src="app/UnitySpace.Storage/deploy/unityspace.storage.ru-RU-debug.js"></script>
 
     <!-- spec -->
-    <script type="text/javascript" src="app/UnitySpace/spec/ConfigurateManager.js"></script>
-    <script type="text/javascript" src="app/UnitySpace/spec/PubSub.js"></script>
+    <!--<script type="text/javascript" src="app/UnitySpace/spec/ConfigurateManager.js"></script>
+    <script type="text/javascript" src="app/UnitySpace/spec/PubSub.js"></script>-->
 
 	<script type="text/javascript">
 	    var DEBUG = true;
@@ -33,17 +35,11 @@
 
 		Engine.configurate({
 		    Authenticate: {
-		        type: 'FormAuthenticate',
-                name: 'test',
-                password: 'qwerty',
-                rememberMe: true
+		        type: 'FormAuthenticate'
 		    },
 		    Connection: {
 		        restfull: true
-		    },
-            Debug: {
-                mock: true
-            }
+		    }
 		});
 
 		/*Engine.subscribe('/modules/gina/beforelogon', function (validateFn) {

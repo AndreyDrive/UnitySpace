@@ -1,0 +1,124 @@
+{
+	"projectName": "UnitySpace.Storage",
+	"deployDir": "deploy/",
+	"licenseText": "UnitySpace.Storage license",
+	"pkgs": [
+		{
+			"name": "UnitySpace.Storage",
+			"file": "unityspace.storage.en-US.js",
+			"fileIncludes": [
+				{
+					"text": "Namespace.js",
+					"path": "src/"
+				},
+				{
+					"text": "Namespace.js",
+					"path": "src/Controllers/"
+				},
+				{
+					"text": "BaseStorageController.js",
+					"path": "src/Controllers/"
+				},
+				{
+					"text": "AccountController.js",
+					"path": "src/Controllers/"
+				},
+				{
+					"text": "ProjectsController.js",
+					"path": "src/Controllers/"
+				},
+				{
+					"text": "RepositoryController.js",
+					"path": "src/Controllers/"
+				},
+				{
+					"text": "RolesController.js",
+					"path": "src/Controllers/"
+				},
+				{
+					"text": "UsersController.js",
+					"path": "src/Controllers/"
+				},
+				{
+					"text": "Namespace.js",
+					"path": "src/Models/"
+				},
+				{
+					"text": "Project.js",
+					"path": "src/Models/"
+				},
+				{
+					"text": "Role.js",
+					"path": "src/Models/"
+				},
+				{
+					"text": "User.js",
+					"path": "src/Models/"
+				},
+				{
+					"text": "Resources.en-US.js",
+					"path": "src/Resources/"
+				}
+			]
+		},
+		{
+			"name": "UnitySpace.Storage",
+			"file": "unityspace.storage.ru-RU.js",
+			"fileIncludes": [
+				{
+					"text": "Namespace.js",
+					"path": "src/"
+				},
+				{
+					"text": "Namespace.js",
+					"path": "src/Controllers/"
+				},
+				{
+					"text": "BaseStorageController.js",
+					"path": "src/Controllers/"
+				},
+				{
+					"text": "AccountController.js",
+					"path": "src/Controllers/"
+				},
+				{
+					"text": "ProjectsController.js",
+					"path": "src/Controllers/"
+				},
+				{
+					"text": "RepositoryController.js",
+					"path": "src/Controllers/"
+				},
+				{
+					"text": "RolesController.js",
+					"path": "src/Controllers/"
+				},
+				{
+					"text": "UsersController.js",
+					"path": "src/Controllers/"
+				},
+				{
+					"text": "Namespace.js",
+					"path": "src/Models/"
+				},
+				{
+					"text": "Project.js",
+					"path": "src/Models/"
+				},
+				{
+					"text": "Role.js",
+					"path": "src/Models/"
+				},
+				{
+					"text": "User.js",
+					"path": "src/Models/"
+				},
+				{
+					"text": "Resources.ru-RU.js",
+					"path": "src/Resources/"
+				}
+			]
+		}
+	],
+	"resources": []
+}

@@ -12,7 +12,7 @@
  */
 UnitySpace.ArgumentNullException = function(paramName) {
     //UnitySpace.ArgumentNullException.constructor.apply(this, arguments);
-    this.message = String.format(UnitySpace.Resources.ArgumentNullException.Message,  paramName);
+    this.message = String.format(Resources.get("ArgumentNullException.Message"),  paramName);
     this.name = 'ArgumentNullException';
 };
 

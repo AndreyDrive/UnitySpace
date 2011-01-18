@@ -39,6 +39,8 @@ UnitySpace.System.Modules.ExtJSModule = Ext.extend(UnitySpace.System.Modules.Bas
         this.hookNetwork();
 
         this.hookRest();
+
+        this.publishInitialized();
     },
 
     // private

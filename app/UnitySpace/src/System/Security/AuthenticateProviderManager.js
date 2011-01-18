@@ -26,7 +26,7 @@ Ext.extend(UnitySpace.System.Security.AuthenticateProviderManager, Object, {
         var providers = this.providers[name];
         if (!Ext.isDefined(providers))
             throw new UnitySpace.System.Security.AuthenticateProviderException(
-                    UnitySpace.Resources.System.Security.ProviderNotRegistrate,
+                    Resources.get("System.Security.ProviderNotRegistrate"),
                     name);
 
         if (!providers.instance) {
@@ -48,7 +48,7 @@ Ext.extend(UnitySpace.System.Security.AuthenticateProviderManager, Object, {
 
         if (Ext.isDefined(this.providers[name]))
             throw new UnitySpace.System.Security.AuthenticateProviderException(
-                    UnitySpace.Resources.System.Security.AuthenticateProviderManager.ProviderAlreadyRegistrate,
+                    Resources.get("System.Security.AuthenticateProviderManager.ProviderAlreadyRegistrate"),
                     name);
 
         this.providers[name] = {

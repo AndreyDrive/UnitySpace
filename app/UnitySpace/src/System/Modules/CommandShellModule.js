@@ -30,6 +30,8 @@ UnitySpace.System.Modules.CommandShellModule = Ext.extend(UnitySpace.System.Modu
 
         this.applicationCatalog = Engine.Module.ApplicationsCatalog;
         this.taskManager = Engine.Module.TaskManager;
+
+        this.publishInitialized();
     },
 
     /**

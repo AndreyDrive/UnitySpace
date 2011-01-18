@@ -38,6 +38,8 @@ UnitySpace.System.Modules.KeyboardModule = Ext.extend(UnitySpace.System.Modules.
                 }
             }
         }]);
+
+        this.publishInitialized();
     },
 
     addHotKey: function(config) {

@@ -1,20 +1,19 @@
-// using System.Controllers.BaseController
-// using System.Controllers.Mock.Mock
+// using Controllers.Namespace
 
 /**
- * @class UnitySpace.System.Controllers.Mock.RepositoryController
+ * @class UnitySpace.Storage.Controllers.RepositoryController
  * @namespace UnitySpace.System.Controllers
  * @extends UnitySpace.System.Controllers.BaseController
  * RolesController class
  * @author Max Kazarin
  * @constructor
- * Create new instance of UnitySpace.System.Controllers.Mock.RolesController class
+ * Create new instance of UnitySpace.Storage.Controllers.RolesController class
  */
-UnitySpace.System.Controllers.Mock.BaseMockController = function() {
-    UnitySpace.System.Controllers.Mock.BaseMockController.superclass.constructor.apply(this, arguments);
+UnitySpace.Storage.Controllers.BaseMockController = function() {
+    UnitySpace.Storage.Controllers.BaseMockController.superclass.constructor.apply(this, arguments);
 };
 
-Ext.extend(UnitySpace.System.Controllers.Mock.BaseMockController, UnitySpace.System.Controllers.BaseController, {
+Ext.extend(UnitySpace.Storage.Controllers.BaseMockController, UnitySpace.System.Controllers.BaseController, {
     success: function(data, statusCode, successFn, responseFn) {
         var response = this._response(data, statusCode);
         this._safeCall(successFn, [response, null]);

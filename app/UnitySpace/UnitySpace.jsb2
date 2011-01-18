@@ -32,6 +32,10 @@
 					"path": "src/"
 				},
 				{
+					"text": "ResourceManager.js",
+					"path": "src/"
+				},
+				{
 					"text": "Resources.en-US.js",
 					"path": "src/Resources/"
 				},
@@ -64,6 +68,14 @@
 					"path": "src/"
 				},
 				{
+					"text": "SystemException.js",
+					"path": "src/System/"
+				},
+				{
+					"text": "InitializeManager.js",
+					"path": "src/System/"
+				},
+				{
 					"text": "Engine.js",
 					"path": "src/System/"
 				},
@@ -84,42 +96,6 @@
 					"path": "src/System/Controllers/"
 				},
 				{
-					"text": "Namespace.js",
-					"path": "src/System/Controllers/Mock/"
-				},
-				{
-					"text": "Mock.js",
-					"path": "src/System/Controllers/Mock/"
-				},
-				{
-					"text": "BaseMockController.js",
-					"path": "src/System/Controllers/Mock/"
-				},
-				{
-					"text": "AccountController.js",
-					"path": "src/System/Controllers/Mock/"
-				},
-				{
-					"text": "ProjectsController.js",
-					"path": "src/System/Controllers/Mock/"
-				},
-				{
-					"text": "RepositoryController.js",
-					"path": "src/System/Controllers/Mock/"
-				},
-				{
-					"text": "Roles.js",
-					"path": "src/System/Controllers/Mock/"
-				},
-				{
-					"text": "RolesController.js",
-					"path": "src/System/Controllers/Mock/"
-				},
-				{
-					"text": "UsersController.js",
-					"path": "src/System/Controllers/Mock/"
-				},
-				{
 					"text": "ProjectsController.js",
 					"path": "src/System/Controllers/"
 				},
@@ -137,10 +113,6 @@
 				},
 				{
 					"text": "EManifestType.js",
-					"path": "src/System/"
-				},
-				{
-					"text": "Init.js",
 					"path": "src/System/"
 				},
 				{
@@ -226,10 +198,6 @@
 				{
 					"text": "FormAuthenticateProvider.js",
 					"path": "src/System/Security/"
-				},
-				{
-					"text": "SystemException.js",
-					"path": "src/System/"
 				},
 				{
 					"text": "Task.js",
@@ -266,6 +234,10 @@
 					"path": "src/"
 				},
 				{
+					"text": "ResourceManager.js",
+					"path": "src/"
+				},
+				{
 					"text": "Resources.ru-RU.js",
 					"path": "src/Resources/"
 				},
@@ -298,6 +270,14 @@
 					"path": "src/"
 				},
 				{
+					"text": "SystemException.js",
+					"path": "src/System/"
+				},
+				{
+					"text": "InitializeManager.js",
+					"path": "src/System/"
+				},
+				{
 					"text": "Engine.js",
 					"path": "src/System/"
 				},
@@ -318,42 +298,6 @@
 					"path": "src/System/Controllers/"
 				},
 				{
-					"text": "Namespace.js",
-					"path": "src/System/Controllers/Mock/"
-				},
-				{
-					"text": "Mock.js",
-					"path": "src/System/Controllers/Mock/"
-				},
-				{
-					"text": "BaseMockController.js",
-					"path": "src/System/Controllers/Mock/"
-				},
-				{
-					"text": "AccountController.js",
-					"path": "src/System/Controllers/Mock/"
-				},
-				{
-					"text": "ProjectsController.js",
-					"path": "src/System/Controllers/Mock/"
-				},
-				{
-					"text": "RepositoryController.js",
-					"path": "src/System/Controllers/Mock/"
-				},
-				{
-					"text": "Roles.js",
-					"path": "src/System/Controllers/Mock/"
-				},
-				{
-					"text": "RolesController.js",
-					"path": "src/System/Controllers/Mock/"
-				},
-				{
-					"text": "UsersController.js",
-					"path": "src/System/Controllers/Mock/"
-				},
-				{
 					"text": "ProjectsController.js",
 					"path": "src/System/Controllers/"
 				},
@@ -371,10 +315,6 @@
 				},
 				{
 					"text": "EManifestType.js",
-					"path": "src/System/"
-				},
-				{
-					"text": "Init.js",
 					"path": "src/System/"
 				},
 				{
@@ -460,10 +400,6 @@
 				{
 					"text": "FormAuthenticateProvider.js",
 					"path": "src/System/Security/"
-				},
-				{
-					"text": "SystemException.js",
-					"path": "src/System/"
 				},
 				{
 					"text": "Task.js",

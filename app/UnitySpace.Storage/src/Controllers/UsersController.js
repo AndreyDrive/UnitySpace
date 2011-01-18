@@ -1,19 +1,19 @@
-// using System.Controllers.Mock.BaseMockController
+// using Controllers.BaseStorageController
 
 /**
- * @class UnitySpace.System.Controllers.Mock.UsersController
- * @namespace UnitySpace.System.Controllers.Mock
- * @extends UnitySpace.System.Controllers.Mock.BaseMockController
+ * @class UnitySpace.Storage.Controllers.UsersController
+ * @namespace UnitySpace.Storage.Controllers
+ * @extends UnitySpace.Storage.Controllers.BaseMockController
  * UsersController class
  * @author Max Kazarin
  * @constructor
- * Create new instance of UnitySpace.System.Controllers.Mock.UsersController class
+ * Create new instance of UnitySpace.Storage.Controllers.UsersController class
  */
-UnitySpace.System.Controllers.Mock.UsersController = function() {
-    UnitySpace.System.Controllers.Mock.UsersController.superclass.constructor.apply(this, arguments);
+UnitySpace.Storage.Controllers.UsersController = function() {
+    UnitySpace.Storage.Controllers.UsersController.superclass.constructor.apply(this, arguments);
 };
 
-Ext.extend(UnitySpace.System.Controllers.Mock.UsersController, UnitySpace.System.Controllers.Mock.BaseMockController, {
+Ext.extend(UnitySpace.Storage.Controllers.UsersController, UnitySpace.Storage.Controllers.BaseMockController, {
 
     /**
      * Get user in project by id. Request url GET /user/(userId)/project/(projectId)/.
@@ -78,3 +78,5 @@ Ext.extend(UnitySpace.System.Controllers.Mock.UsersController, UnitySpace.System
         return null;
     }
 });
+
+Engine.api.registrate("UnitySpace.Users", UnitySpace.Storage.Controllers.UsersController, true);

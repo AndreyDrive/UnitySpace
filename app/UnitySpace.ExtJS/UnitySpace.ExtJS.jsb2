@@ -1,0 +1,36 @@
+{
+	"projectName": "UnitySpace.ExtJS",
+	"deployDir": "deploy/",
+	"licenseText": "UnitySpace.ExtJS license",
+	"pkgs": [
+		{
+			"name": "UnitySpace.ExtJS",
+			"file": "unityspace.extjs.en-US.js",
+			"fileIncludes": [
+				{
+					"text": "Array.js",
+					"path": "src/"
+				},
+				{
+					"text": "Resources.en-US.js",
+					"path": "src/Resources/"
+				}
+			]
+		},
+		{
+			"name": "UnitySpace.ExtJS",
+			"file": "unityspace.extjs.ru-RU.js",
+			"fileIncludes": [
+				{
+					"text": "Array.js",
+					"path": "src/"
+				},
+				{
+					"text": "Resources.ru-RU.js",
+					"path": "src/Resources/"
+				}
+			]
+		}
+	],
+	"resources": []
+}

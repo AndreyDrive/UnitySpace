@@ -61,6 +61,10 @@ Ext.override(Ext.util.Observable, {
         return matched;
     },
 
+    unsubscribe: function(eventName, handler) {
+        UnitySpace.PubSub.un( eventName, handler);        
+    },
+
     /**
      * Remove events subscription
      * @param {String} eventName Name of event
